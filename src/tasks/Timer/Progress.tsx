@@ -1,19 +1,21 @@
-import { Signal } from '@preact/signals-core';
+import { State } from './state';
 
 type Props = {
-  elapsedInSeconds: Signal<number>;
-  durationInSeconds: Signal<number>;
+  state: State;
 };
 
-function Progress({ elapsedInSeconds, durationInSeconds }: Props) {
+function Progress({ state }: Props) {
   return (
-    <div>
-      <p>Elapsed: {elapsedInSeconds.value.toFixed(1)}s</p>
+    <div style={{ display: 'flex', alignItems: 'center' }}>
+      <label style={{ width: '150px' }}>
+        <b>Elapsed:</b> {state.elapsedInSeconds.value.toFixed(1)}s
+      </label>
+
       <meter
         style={{ width: '50%' }}
-        value={elapsedInSeconds.value}
+        value={state.elapsedInSeconds.value}
         min="0"
-        max={durationInSeconds.value}
+        max={state.durationInSeconds.value}
       />
     </div>
   );

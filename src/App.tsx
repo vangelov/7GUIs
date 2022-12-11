@@ -1,3 +1,4 @@
+import { CRUD } from 'tasks/CRUD';
 import { FlightBooker } from 'tasks/FlightBooker';
 import { Timer } from 'tasks/Timer';
 import { Counter } from './tasks/Counter';
@@ -15,6 +16,8 @@ function App() {
       <FlightBooker />
       <hr />
       <Timer />
+      <hr />
+      <CRUD />
     </div>
   );
 }

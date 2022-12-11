@@ -32,10 +32,7 @@ function Timer() {
 
   return (
     <Task name="Timer">
-      <Progress
-        elapsedInSeconds={state.elapsedInSeconds}
-        durationInSeconds={state.durationInSeconds}
-      />
+      <Progress state={state} />
 
       <DurationInput
         value={state.durationInSeconds.value}
