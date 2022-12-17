@@ -1,13 +1,4 @@
-import { Signal } from '@preact/signals-core';
-
-type State = {
-  elapsedInSeconds: Signal<number>;
-  durationInSeconds: Signal<number>;
-  startInSeconds: Signal<number>;
-  intervalId: Signal<number | null>;
-};
-
-const MAX_DURATION_IN_SECONDS = 30;
+import { State } from './types';
 
 function resetTimer(state: State) {
   state.startInSeconds.value = performance.now() / 1000;
@@ -45,6 +36,4 @@ function startInterval(state: State) {
   }, 100);
 }
 
-export type { State };
-
-export { resetTimer, setDurationInSeconds, MAX_DURATION_IN_SECONDS };
+export { resetTimer, setDurationInSeconds };

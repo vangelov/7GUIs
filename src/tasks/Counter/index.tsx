@@ -1,14 +1,11 @@
-import { signal } from '@preact/signals-react';
 import { Task } from 'Task';
-import { State, incrementCounter } from './state';
+import { getInitialState, actions } from './state';
 
-const state: State = {
-  counter: signal(0)
-};
+const state = getInitialState();
 
 function Counter() {
   function onClick() {
-    incrementCounter(state);
+    actions.incrementCounter(state);
   }
 
   return (

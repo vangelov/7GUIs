@@ -1,5 +1,5 @@
 import { ChangeEvent } from 'react';
-import { FlightType } from './state';
+import { FlightType } from 'tasks/FlightBooker/state';
 
 type Props = {
   onChange: (value: FlightType) => void;

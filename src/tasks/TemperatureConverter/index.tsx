@@ -1,21 +1,16 @@
-import { signal } from '@preact/signals-core';
-
 import { Task } from 'Task';
 import { Input } from './Input';
-import { setCelsius, setFahrenheit, State } from './state';
+import { getInitialState, actions, State } from './state';
 
-const state: State = {
-  celsius: signal(''),
-  fahrenheit: signal('')
-};
+const state: State = getInitialState();
 
 function TemperatureConverter() {
   function onCelsiusInputChange(value: string) {
-    setCelsius(state, value);
+    actions.setCelsius(state, value);
   }
 
   function onFahrenheitInputChange(value: string) {
-    setFahrenheit(state, value);
+    actions.setFahrenheit(state, value);
   }
 
   return (

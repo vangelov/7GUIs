@@ -1,51 +1,34 @@
-import { signal } from '@preact/signals-core';
 import { Task } from 'Task';
-import { DateInput } from './DateInput';
-import { formatDate } from './dates';
-import { FlightTypeSelect } from './FlightTypeSelect';
+import { DateInput, FlightTypeSelect } from './components';
 import {
   FlightType,
-  getStartDateState,
-  isBookingEnabled,
   State,
-  updateFlightType,
-  updateStartDate,
-  updateEndDate,
-  getEndDateState,
-  getBookMessage
+  actions,
+  selectors,
+  getInitialState
 } from './state';
 
-const initialDate = new Date();
-
-const state: State = {
-  flightType: signal('oneWay'),
-
-  start: signal(formatDate(initialDate)),
-  startDate: signal(initialDate),
-
-  end: signal(formatDate(initialDate)),
-  endDate: signal(initialDate)
-};
+const state: State = getInitialState();
 
 function FlightBooker() {
   function onFlightTypeChange(value: FlightType) {
-    updateFlightType(state, value);
+    actions.setFlightType(state, value);
   }
 
   function onStartDateChange(value: string) {
-    updateStartDate(state, value);
+    actions.setStartDate(state, value);
   }
 
   function onEndDateChange(value: string) {
-    updateEndDate(state, value);
+    actions.setEndDate(state, value);
   }
 
   function onBook() {
-    window.alert(getBookMessage(state));
+    window.alert(selectors.getBookMessage(state));
   }
 
-  const startDateState = getStartDateState(state);
-  const endDateState = getEndDateState(state);
+  const startDateState = selectors.getStartDateState(state);
+  const endDateState = selectors.getEndDateState(state);
 
   return (
     <Task name="Flight Booker">
@@ -68,7 +51,7 @@ function FlightBooker() {
         onChange={onEndDateChange}
       />
 
-      <button disabled={!isBookingEnabled(state)} onClick={onBook}>
+      <button disabled={!selectors.isBookingEnabled(state)} onClick={onBook}>
         Book
       </button>
     </Task>

@@ -1,18 +1,5 @@
-import { signal, Signal } from '@preact/signals-core';
-
-type User = {
-  id?: number;
-  name: string;
-  surname: string;
-};
-
-type State = {
-  filterPrefix: Signal<string>;
-  users: Signal<Signal<User>[]>;
-  selectedIndex: Signal<number | null>;
-  currentUser: Signal<User>;
-  lastId: Signal<number>;
-};
+import { signal } from '@preact/signals-core';
+import { State, User } from './types';
 
 const EMPTY_USER = { name: '', surname: '' };
 
@@ -67,45 +54,19 @@ function getUsers(state: State) {
   });
 }
 
-function getSelectedUser(state: State) {
-  if (state.selectedIndex.value !== null) {
-    return state.users.value[state.selectedIndex.value];
-  }
-
-  return null;
-}
-
 function selectUser(state: State, index: number) {
   const user = state.users.value[index];
   state.selectedIndex.value = index;
   setCurrentUser(state, user.value);
 }
 
-function canCreateUser(state: State) {
-  return state.currentUser.value.name && state.currentUser.value.surname;
-}
-
-function canUpdateUser(state: State) {
-  return state.selectedIndex.value !== null;
-}
-
-function canDeleteUser(state: State) {
-  return state.selectedIndex.value !== null;
-}
-
 export {
+  setCurrentUser,
   createUser,
   deleteUser,
   updateUser,
   setFilterPrefix,
   getUsers,
   selectUser,
-  getSelectedUser,
-  setCurrentUser,
-  canCreateUser,
-  canUpdateUser,
-  canDeleteUser,
   EMPTY_USER
 };
-
-export type { State, User };

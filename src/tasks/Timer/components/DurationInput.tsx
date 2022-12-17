@@ -1,5 +1,5 @@
 import { ChangeEvent } from 'react';
-import { MAX_DURATION_IN_SECONDS } from './state';
+import { MAX_DURATION_IN_SECONDS } from 'tasks/Timer/state';
 
 type Props = {
   value: number;

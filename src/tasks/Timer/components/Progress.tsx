@@ -1,4 +1,4 @@
-import { State } from './state';
+import { State } from 'tasks/Timer/state';
 
 type Props = {
   state: State;

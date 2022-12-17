@@ -1,4 +1,4 @@
-import { getUsers, selectUser, State } from './state';
+import { actions, selectors, State } from 'tasks/CRUD/state';
 import { UserItem } from './UserItem';
 
 type Props = {
@@ -6,10 +6,10 @@ type Props = {
 };
 
 function UsersList({ state }: Props) {
-  const users = getUsers(state);
+  const users = selectors.getUsers(state);
 
   function onUserSelect(index: number) {
-    selectUser(state, index);
+    actions.selectUser(state, index);
   }
 
   return (

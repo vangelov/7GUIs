@@ -1,10 +1,8 @@
-import { Signal } from '@preact/signals-core';
-import { celsiusToFahrenheit } from './units';
-
-type State = {
-  celsius: Signal<string>;
-  fahrenheit: Signal<string>;
-};
+import {
+  celsiusToFahrenheit,
+  fahrenheitToCelsius
+} from 'tasks/TemperatureConverter/units';
+import { State } from './types';
 
 function isNumeric(n: number) {
   return !isNaN(n) && isFinite(n);
@@ -31,11 +29,9 @@ function setFahrenheit(state: State, value: string) {
   const parsedValue = parseFloat(value);
 
   if (isNumeric(parsedValue)) {
-    const celsius = celsiusToFahrenheit(parsedValue);
+    const celsius = fahrenheitToCelsius(parsedValue);
     state.celsius.value = formatValue(celsius);
   }
 }
-
-export type { State };
 
 export { setCelsius, setFahrenheit };

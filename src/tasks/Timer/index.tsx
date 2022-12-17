@@ -1,33 +1,21 @@
-import { signal } from '@preact/signals-core';
 import { useEffect } from 'react';
 import { Task } from 'Task';
-import { DurationInput } from './DurationInput';
-import {
-  resetTimer,
-  setDurationInSeconds,
-  State,
-  MAX_DURATION_IN_SECONDS
-} from './state';
-import { Progress } from './Progress';
+import { actions, State, getInitialState } from './state';
+import { Progress, DurationInput } from './components';
 
-const state: State = {
-  elapsedInSeconds: signal(0),
-  durationInSeconds: signal(MAX_DURATION_IN_SECONDS / 2),
-  intervalId: signal(null),
-  startInSeconds: signal(0)
-};
+const state: State = getInitialState();
 
 function Timer() {
   useEffect(() => {
-    resetTimer(state);
+    actions.resetTimer(state);
   }, []);
 
   function onDurationChange(value: number) {
-    setDurationInSeconds(state, value);
+    actions.setDurationInSeconds(state, value);
   }
 
   function onReset() {
-    resetTimer(state);
+    actions.resetTimer(state);
   }
 
   return (

@@ -1,5 +1,5 @@
 import { ChangeEvent } from 'react';
-import { setFilterPrefix, State } from './state';
+import { actions, State } from 'tasks/CRUD/state';
 
 type Props = {
   state: State;
@@ -8,7 +8,7 @@ type Props = {
 function FilterInput({ state }: Props) {
   function onInputChange(event: ChangeEvent<HTMLInputElement>) {
     const { value } = event.target;
-    setFilterPrefix(state, value);
+    actions.setFilterPrefix(state, value);
   }
 
   return (

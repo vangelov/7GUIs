@@ -1,4 +1,4 @@
-import { User } from './state';
+import { User } from 'tasks/CRUD/state';
 
 type Props = {
   user: User;

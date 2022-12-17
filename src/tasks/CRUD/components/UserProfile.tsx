@@ -1,5 +1,5 @@
 import { ChangeEvent } from 'react';
-import { setCurrentUser, State } from './state';
+import { actions, State } from 'tasks/CRUD/state';
 
 type Props = {
   state: State;
@@ -8,12 +8,15 @@ type Props = {
 function UserProfile({ state }: Props) {
   function onNameChange(event: ChangeEvent<HTMLInputElement>) {
     const { value } = event.target;
-    setCurrentUser(state, { ...state.currentUser.value, name: value });
+    actions.setCurrentUser(state, { ...state.currentUser.value, name: value });
   }
 
   function onSurnameChange(event: ChangeEvent<HTMLInputElement>) {
     const { value } = event.target;
-    setCurrentUser(state, { ...state.currentUser.value, surname: value });
+    actions.setCurrentUser(state, {
+      ...state.currentUser.value,
+      surname: value
+    });
   }
 
   return (
