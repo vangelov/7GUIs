@@ -1,3 +1,4 @@
+import { CircleDrawer } from 'tasks/CircleDrawer';
 import { CRUD } from 'tasks/CRUD';
 import { FlightBooker } from 'tasks/FlightBooker';
 import { Timer } from 'tasks/Timer';
@@ -18,6 +19,8 @@ function App() {
       <Timer />
       <hr />
       <CRUD />
+      <hr />
+      <CircleDrawer />
     </div>
   );
 }
