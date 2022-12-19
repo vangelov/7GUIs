@@ -5,15 +5,16 @@ function getInitialState(): State {
   return {
     lastCircleId: signal(0),
     circles: signal([]),
+    selectedCirleIndex: signal(null),
+
     history: signal([]),
     historyIndex: signal(null),
-    selectedCirleIndex: signal(null),
+
     adjustButtonPosition: signal(null),
     adjustDialogPosition: signal(null),
-    dragging: {
-      beforeDragPosition: signal(null),
-      startDragPosition: signal(null)
-    }
+
+    initialPointerPosition: signal(null),
+    initialObjectPosition: signal(null)
   };
 }
 

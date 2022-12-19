@@ -6,6 +6,8 @@ import {
   selectors,
   Circle
 } from 'tasks/CircleDrawer/state';
+import { onCloseAdjustmentDialog } from '../state/actions';
+import './Dialog.css';
 
 type Props = {
   state: State;
@@ -24,9 +26,14 @@ function Dialog({ state }: Props) {
     }
   }
 
+  function onClose() {
+    onCloseAdjustmentDialog(state);
+  }
+
   return (
     <DialogView
       circle={circle.value}
+      onClose={onClose}
       onRadiusChange={onRadiusChange}
       position={state.adjustDialogPosition.value}
       onDragStart2={(position) => {
@@ -49,6 +56,7 @@ type ViewProps = {
   onDrag2: (position: Position) => void;
   circle: Circle;
   onRadiusChange: (value: number) => void;
+  onClose: () => void;
 } & HTMLAttributes<HTMLDivElement>;
 
 function DialogView({
@@ -56,6 +64,7 @@ function DialogView({
   onDragStart2,
   onDrag2,
   circle,
+  onClose,
   onRadiusChange
 }: ViewProps) {
   function onMouseDown(event: MouseEvent) {
@@ -84,41 +93,17 @@ function DialogView({
 
   return (
     <div
+      className="Dialog"
       style={{
-        position: 'absolute',
-        backgroundColor: 'var(--background-body)',
-        boxShadow:
-          '0 4px 6px -1px rgba(0, 0, 0, 0.1),0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-        width: 300,
-        overflow: 'hidden',
-        borderRadius: 10,
-        borderWidth: 1,
-        borderColor: 'var(--border)',
-        borderStyle: 'solid',
         top: position.y,
         left: position.x
       }}
     >
-      <div
-        style={{
-          backgroundColor: 'var(--background-alt)',
-          width: '100%',
-          padding: 8,
-          fontSize: '1.2rem',
-          fontWeight: 'semibold',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          cursor: 'move'
-        }}
-        onMouseDown={onMouseDown}
-      >
+      <div className="Dialog-Header" onMouseDown={onMouseDown}>
         <div>Adjust diameter</div>
-        <div
-          style={{ fontSize: '1rem', cursor: 'pointer', userSelect: 'none' }}
-        >
+        <button onClick={onClose} className="Dialog-CloseButton">
           ✕
-        </div>
+        </button>
       </div>
       <div style={{ padding: 10 }}>
         <input

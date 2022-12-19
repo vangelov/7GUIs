@@ -31,30 +31,13 @@ function onCircleSelect(state: State, index: number, position: Position) {
   const { adjustButtonPosition, selectedCirleIndex, adjustDialogPosition } =
     state;
 
-  if (adjustButtonPosition.value || adjustDialogPosition.value) {
+  if (!adjustButtonPosition.value && !adjustDialogPosition.value) {
+    selectedCirleIndex.value = index;
+    adjustButtonPosition.value = position;
+  } else {
+    selectedCirleIndex.value = null;
     adjustButtonPosition.value = null;
     adjustDialogPosition.value = null;
-    selectedCirleIndex.value = index;
-  } else {
-    adjustButtonPosition.value = position;
-  }
-}
-
-function onCircleMouseEnter(state: State, index: number) {
-  const { adjustButtonPosition, selectedCirleIndex, adjustDialogPosition } =
-    state;
-
-  if (!adjustButtonPosition.value && !adjustDialogPosition.value) {
-    selectedCirleIndex.value = index;
-  }
-}
-
-function onCircleMouseLeave(state: State, index: number) {
-  const { adjustButtonPosition, selectedCirleIndex, adjustDialogPosition } =
-    state;
-
-  if (!adjustButtonPosition.value && !adjustDialogPosition.value) {
-    selectedCirleIndex.value = null;
   }
 }
 
@@ -80,35 +63,30 @@ function onAdjustDiameter(state: State) {
 
 function onStartDrag(
   state: State,
-  beforeDragPosition: Position,
-  startDragPosition: Position
+  initialObjectPosition: Position,
+  initialPointerPosition: Position
 ) {
-  const { dragging } = state;
-
-  dragging.beforeDragPosition.value = beforeDragPosition;
-  dragging.startDragPosition.value = startDragPosition;
+  state.initialPointerPosition.value = initialPointerPosition;
+  state.initialObjectPosition.value = initialObjectPosition;
 }
 
 function onDrag(state: State, position: Position) {
-  const { beforeDragPosition: lastObjectPosition, startDragPosition } =
-    state.dragging;
-
-  if (startDragPosition.value === null) {
-    return;
-  }
-
-  const dx = position.x - startDragPosition.value.x;
-  const dy = position.y - startDragPosition.value.y;
-
-  const { adjustDialogPosition } = state;
+  const {
+    adjustDialogPosition,
+    initialPointerPosition,
+    initialObjectPosition
+  } = state;
 
   if (
-    adjustDialogPosition.value !== null &&
-    lastObjectPosition.value !== null
+    initialPointerPosition.value !== null &&
+    initialObjectPosition.value !== null
   ) {
+    const dx = position.x - initialPointerPosition.value.x;
+    const dy = position.y - initialPointerPosition.value.y;
+
     adjustDialogPosition.value = {
-      x: lastObjectPosition.value.x + dx,
-      y: lastObjectPosition.value.y + dy
+      x: initialObjectPosition.value.x + dx,
+      y: initialObjectPosition.value.y + dy
     };
   }
 }
@@ -122,13 +100,17 @@ function onSetDiameter(state: State, value: number) {
   }
 }
 
+function onCloseAdjustmentDialog(state: State) {
+  state.adjustDialogPosition.value = null;
+  state.selectedCirleIndex.value = null;
+}
+
 export {
   onCanvasSelect,
   onCircleSelect,
-  onCircleMouseEnter,
-  onCircleMouseLeave,
   onStartDrag,
   onDrag,
   onAdjustDiameter,
-  onSetDiameter
+  onSetDiameter,
+  onCloseAdjustmentDialog
 };

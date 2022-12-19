@@ -1,6 +1,7 @@
-import { State } from './types';
+import { Signal } from '@preact/signals-core';
+import { State, Circle } from './types';
 
-function getSelectedCircle(state: State) {
+function getSelectedCircle(state: State): Signal<Circle> | null {
   const { selectedCirleIndex, circles } = state;
 
   if (selectedCirleIndex.value !== null) {

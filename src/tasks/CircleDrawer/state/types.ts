@@ -17,14 +17,12 @@ type State = {
   history: Signal<Signal<Circle>[][]>;
   historyIndex: Signal<number | null>;
   selectedCirleIndex: Signal<number | null>;
+
   adjustButtonPosition: Signal<Position | null>;
-
-  dragging: {
-    beforeDragPosition: Signal<Position | null>;
-    startDragPosition: Signal<Position | null>;
-  };
-
   adjustDialogPosition: Signal<Position | null>;
+
+  initialPointerPosition: Signal<Position | null>;
+  initialObjectPosition: Signal<Position | null>;
 };
 
 export type { State, Circle, Position };

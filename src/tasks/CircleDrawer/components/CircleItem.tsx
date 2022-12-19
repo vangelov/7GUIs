@@ -1,21 +1,16 @@
 import { Signal } from '@preact/signals-react';
-import { DOMAttributes, MouseEvent } from 'react';
+import { MouseEvent } from 'react';
 import { actions, Circle, State } from 'tasks/CircleDrawer/state';
+import './CircleItem.css';
 
 type Props = {
   state: State;
   circle: Signal<Circle>;
   index: number;
   isHovered?: boolean;
-} & DOMAttributes<SVGCircleElement>;
+};
 
-function CircleItem({
-  state,
-  circle,
-  index,
-  isHovered = false,
-  ...rest
-}: Props) {
+function CircleItem({ state, circle, index, isHovered = false }: Props) {
   const { position, radius } = circle.value;
 
   function onClick(event: MouseEvent) {
@@ -33,22 +28,18 @@ function CircleItem({
 
   return (
     <circle
-      className="test"
+      className="CircleItem"
       cx={position.x}
       cy={position.y}
       r={radius}
-      onMouseEnter={() => {
-        actions.onCircleMouseEnter(state, index);
+      style={{
+        fill:
+          state.selectedCirleIndex.value === index
+            ? 'var(--background)'
+            : state.selectedCirleIndex.value === null
+            ? undefined
+            : 'transparent'
       }}
-      onMouseLeave={() => {
-        actions.onCircleMouseLeave(state, index);
-      }}
-      stroke="var(--border)"
-      fill={
-        state.selectedCirleIndex.value === index
-          ? 'var(--background)'
-          : 'transparent'
-      }
       onClick={onClick}
     />
   );

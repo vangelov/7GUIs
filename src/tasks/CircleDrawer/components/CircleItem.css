@@ -1,0 +1,7 @@
+.CircleItem {
+  stroke: var(--border);
+  fill: transparent;
+}
+.CircleItem:hover {
+  fill: var(--background);
+}
