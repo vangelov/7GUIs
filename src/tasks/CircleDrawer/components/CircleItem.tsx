@@ -7,13 +7,13 @@ type Props = {
   state: State;
   circle: Signal<Circle>;
   index: number;
-  isHovered?: boolean;
 };
 
-function CircleItem({ state, circle, index, isHovered = false }: Props) {
+function CircleItem({ state, circle, index }: Props) {
   const { position, radius } = circle.value;
 
   function onClick(event: MouseEvent) {
+    event.preventDefault();
     const boundingRect = (
       event.currentTarget.parentNode as any
     ).getBoundingClientRect();
@@ -29,6 +29,7 @@ function CircleItem({ state, circle, index, isHovered = false }: Props) {
   return (
     <circle
       className="CircleItem"
+      onContextMenu={onClick}
       cx={position.x}
       cy={position.y}
       r={radius}

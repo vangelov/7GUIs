@@ -15,8 +15,9 @@ type State = {
   lastCircleId: Signal<number>;
   circles: Signal<Signal<Circle>[]>;
   history: Signal<Signal<Circle>[][]>;
-  historyIndex: Signal<number | null>;
+  historyIndex: Signal<number>;
   selectedCirleIndex: Signal<number | null>;
+  radiusChanged: Signal<boolean>;
 
   adjustButtonPosition: Signal<Position | null>;
   adjustDialogPosition: Signal<Position | null>;

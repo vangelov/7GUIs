@@ -7,14 +7,16 @@ function getInitialState(): State {
     circles: signal([]),
     selectedCirleIndex: signal(null),
 
-    history: signal([]),
-    historyIndex: signal(null),
+    history: signal([[]]),
+    historyIndex: signal(0),
 
     adjustButtonPosition: signal(null),
     adjustDialogPosition: signal(null),
 
     initialPointerPosition: signal(null),
-    initialObjectPosition: signal(null)
+    initialObjectPosition: signal(null),
+
+    radiusChanged: signal(false)
   };
 }
 

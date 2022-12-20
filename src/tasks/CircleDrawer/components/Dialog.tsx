@@ -37,13 +37,7 @@ function Dialog({ state }: Props) {
       onRadiusChange={onRadiusChange}
       position={state.adjustDialogPosition.value}
       onDragStart2={(position) => {
-        if (state.adjustDialogPosition.value) {
-          actions.onStartDrag(
-            state,
-            state.adjustDialogPosition.value,
-            position
-          );
-        }
+        actions.onStartDrag(state, position);
       }}
       onDrag2={(position) => actions.onDrag(state, position)}
     />
