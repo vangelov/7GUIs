@@ -1,0 +1,10 @@
+.Canvas {
+  border-color: var(--border);
+  border-radius: 6px;
+  border-width: 1;
+  border-style: solid;
+  width: 400px;
+  height: 400px;
+  position: relative;
+  overflow: hidden;
+}

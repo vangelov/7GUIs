@@ -21,9 +21,7 @@ function Dialog({ state }: Props) {
   }
 
   function onRadiusChange(radius: number) {
-    if (circle) {
-      circle.value = { ...circle.value, radius };
-    }
+    actions.onRadiusChange(state, radius);
   }
 
   function onClose() {
@@ -36,18 +34,18 @@ function Dialog({ state }: Props) {
       onClose={onClose}
       onRadiusChange={onRadiusChange}
       position={state.adjustDialogPosition.value}
-      onDragStart2={(position) => {
-        actions.onStartDrag(state, position);
+      onMoveStart={(position) => {
+        actions.onDialogStartMove(state, position);
       }}
-      onDrag2={(position) => actions.onDrag(state, position)}
+      onMove={(position) => actions.onDialogMove(state, position)}
     />
   );
 }
 
 type ViewProps = {
   position: Position;
-  onDragStart2: (position: Position) => void;
-  onDrag2: (position: Position) => void;
+  onMoveStart: (position: Position) => void;
+  onMove: (position: Position) => void;
   circle: Circle;
   onRadiusChange: (value: number) => void;
   onClose: () => void;
@@ -55,20 +53,20 @@ type ViewProps = {
 
 function DialogView({
   position,
-  onDragStart2,
-  onDrag2,
+  onMoveStart,
+  onMove,
   circle,
   onClose,
   onRadiusChange
 }: ViewProps) {
   function onMouseDown(event: MouseEvent) {
-    onDragStart2({
+    onMoveStart({
       x: event.clientX,
       y: event.clientY
     });
 
     function onMouseMove(event: any) {
-      onDrag2({ x: event.clientX, y: event.clientY });
+      onMove({ x: event.clientX, y: event.clientY });
     }
 
     function onMouseUp() {

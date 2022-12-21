@@ -1,6 +1,7 @@
 import { MouseEvent } from 'react';
 import { actions, State } from 'tasks/CircleDrawer/state';
 import { CircleItem } from './CircleItem';
+import './Canvas.css';
 
 type Props = {
   state: State;
@@ -17,18 +18,7 @@ function Canvas({ state }: Props) {
   }
 
   return (
-    <div
-      style={{
-        borderColor: 'var(--border)',
-        borderRadius: '6px',
-        borderWidth: 1,
-        borderStyle: 'solid',
-        width: '400px',
-        height: '400px',
-        position: 'relative',
-        overflow: 'hidden'
-      }}
-    >
+    <div className="Canvas">
       <svg width="100%" height="100%">
         <rect
           width="100%"

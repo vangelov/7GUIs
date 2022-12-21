@@ -1,4 +1,4 @@
-import { Signal, signal } from '@preact/signals-react';
+import { signal } from '@preact/signals-react';
 import { State, Circle, Position } from './types';
 
 const INITIAL_RADIUS = 20;
@@ -30,8 +30,7 @@ function addCircle(state: State, position: Position) {
 }
 
 function onCanvasSelect(state: State, position: Position) {
-  const { selectedCirleIndex, adjustButtonPosition, adjustDialogPosition } =
-    state;
+  const { selectedCirleIndex } = state;
 
   saveRadius(state);
 
@@ -39,9 +38,7 @@ function onCanvasSelect(state: State, position: Position) {
     addCircle(state, position);
   }
 
-  adjustButtonPosition.value = null;
-  adjustDialogPosition.value = null;
-  selectedCirleIndex.value = null;
+  clearSelection(state);
 }
 
 function onCircleSelect(state: State, index: number, position: Position) {
@@ -52,13 +49,11 @@ function onCircleSelect(state: State, index: number, position: Position) {
     selectedCirleIndex.value = index;
     adjustButtonPosition.value = position;
   } else {
-    selectedCirleIndex.value = null;
-    adjustButtonPosition.value = null;
-    adjustDialogPosition.value = null;
+    clearSelection(state);
   }
 }
 
-function onAdjustDiameter(state: State) {
+function onAdjustRadius(state: State) {
   const {
     selectedCirleIndex,
     circles,
@@ -78,12 +73,12 @@ function onAdjustDiameter(state: State) {
   }
 }
 
-function onStartDrag(state: State, initialPointerPosition: Position) {
+function onDialogStartMove(state: State, initialPointerPosition: Position) {
   state.initialPointerPosition.value = initialPointerPosition;
   state.initialObjectPosition.value = state.adjustDialogPosition.value;
 }
 
-function onDrag(state: State, position: Position) {
+function onDialogMove(state: State, position: Position) {
   const {
     adjustDialogPosition,
     initialPointerPosition,
@@ -104,7 +99,7 @@ function onDrag(state: State, position: Position) {
   }
 }
 
-function onSetDiameter(state: State, value: number) {
+function onRadiusChange(state: State, value: number) {
   const { circles, selectedCirleIndex, radiusChanged } = state;
 
   if (selectedCirleIndex.value !== null) {
@@ -120,23 +115,21 @@ function onCloseAdjustmentDialog(state: State) {
 }
 
 function clearSelection(state: State) {
-  const {
-    adjustDialogPosition,
-    selectedCirleIndex,
-    adjustButtonPosition,
-    radiusChanged
-  } = state;
-
-  selectedCirleIndex.value = null;
-  adjustButtonPosition.value = null;
-  adjustDialogPosition.value = null;
-  radiusChanged.value = false;
+  state.selectedCirleIndex.value = null;
+  state.adjustButtonPosition.value = null;
+  state.adjustDialogPosition.value = null;
+  state.radiusChanged.value = false;
 }
 
 function saveRadius(state: State) {
-  const { circles, selectedCirleIndex, adjustDialogPosition } = state;
+  const { circles, selectedCirleIndex, adjustDialogPosition, radiusChanged } =
+    state;
 
-  if (selectedCirleIndex.value !== null && adjustDialogPosition.value) {
+  if (
+    selectedCirleIndex.value !== null &&
+    adjustDialogPosition.value &&
+    radiusChanged.value
+  ) {
     const selectedCircle = circles.value[selectedCirleIndex.value];
 
     expandHistory(state, (lastCircles) =>
@@ -166,10 +159,10 @@ function onRedo(state: State) {
 export {
   onCanvasSelect,
   onCircleSelect,
-  onStartDrag,
-  onDrag,
-  onAdjustDiameter,
-  onSetDiameter,
+  onDialogStartMove,
+  onDialogMove,
+  onAdjustRadius as onAdjustDiameter,
+  onRadiusChange,
   onCloseAdjustmentDialog,
   onUndo,
   onRedo
