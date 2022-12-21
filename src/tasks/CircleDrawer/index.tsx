@@ -10,7 +10,7 @@ function CircleDrawer() {
   const { adjustButtonPosition } = state;
 
   function onAdjustButtonClick() {
-    actions.onAdjustDiameter(state);
+    actions.onAdjustRadius(state);
   }
 
   return (

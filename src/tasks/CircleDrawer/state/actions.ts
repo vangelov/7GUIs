@@ -163,7 +163,7 @@ export {
   onCircleSelect,
   onDialogStartMove,
   onDialogMove,
-  onAdjustRadius as onAdjustDiameter,
+  onAdjustRadius,
   onRadiusChange,
   onCloseAdjustmentDialog,
   onUndo,
