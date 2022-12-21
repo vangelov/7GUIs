@@ -14,7 +14,7 @@ type Circle = {
 type State = {
   lastCircleId: Signal<number>;
   circles: Signal<Signal<Circle>[]>;
-  history: Signal<Signal<Circle>[][]>;
+  history: Signal<Circle[][]>;
   historyIndex: Signal<number>;
   selectedCirleIndex: Signal<number | null>;
   radiusChanged: Signal<boolean>;

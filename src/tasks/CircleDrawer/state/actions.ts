@@ -1,23 +1,32 @@
-import { signal } from '@preact/signals-react';
+import { Signal, signal } from '@preact/signals-react';
 import { State, Circle, Position } from './types';
 
 const INITIAL_RADIUS = 20;
 
+function expandHistory(
+  state: State,
+  getNextCircles: (lastCircles: Circle[]) => Circle[]
+) {
+  const { history, historyIndex } = state;
+  const historyUntilIndex = history.value.slice(0, historyIndex.value + 1);
+  const lastCircles = historyUntilIndex[historyUntilIndex.length - 1];
+  const nextCircles = getNextCircles(lastCircles);
+
+  history.value = [...historyUntilIndex, nextCircles];
+
+  historyIndex.value = history.value.length - 1;
+}
+
 function addCircle(state: State, position: Position) {
-  const { history, circles, lastCircleId, historyIndex } = state;
+  const { circles, lastCircleId } = state;
 
   const id = lastCircleId.value;
   const circle: Circle = { id, position, radius: INITIAL_RADIUS };
+  lastCircleId.value += 1;
 
-  const historyUntilIndex = history.value.slice(0, historyIndex.value + 1);
-  history.value = [
-    ...historyUntilIndex,
-    [...historyUntilIndex[historyUntilIndex.length - 1], signal(circle)]
-  ];
   circles.value = [...circles.value, signal(circle)];
 
-  lastCircleId.value += 1;
-  historyIndex.value = history.value.length - 1;
+  expandHistory(state, (lastCircles) => [...lastCircles, circle]);
 }
 
 function onCanvasSelect(state: State, position: Position) {
@@ -125,30 +134,16 @@ function clearSelection(state: State) {
 }
 
 function saveRadius(state: State) {
-  const {
-    circles,
-    selectedCirleIndex,
-    history,
-    historyIndex,
-    adjustDialogPosition
-  } = state;
+  const { circles, selectedCirleIndex, adjustDialogPosition } = state;
 
   if (selectedCirleIndex.value !== null && adjustDialogPosition.value) {
     const selectedCircle = circles.value[selectedCirleIndex.value];
-    const historyUntilIndex = history.value.slice(0, historyIndex.value + 1);
 
-    history.value = [
-      ...historyUntilIndex,
-      historyUntilIndex[historyUntilIndex.length - 1].map((circle) => {
-        if (circle.value.id === selectedCircle.value.id) {
-          return signal(selectedCircle.value);
-        }
-
-        return circle;
-      })
-    ];
-
-    historyIndex.value = history.value.length - 1;
+    expandHistory(state, (lastCircles) =>
+      lastCircles.map((circle) =>
+        circle.id === selectedCircle.value.id ? selectedCircle.value : circle
+      )
+    );
   }
 }
 
@@ -157,7 +152,7 @@ function onUndo(state: State) {
 
   clearSelection(state);
   historyIndex.value -= 1;
-  circles.value = history.value[historyIndex.value];
+  circles.value = history.value[historyIndex.value].map(signal);
 }
 
 function onRedo(state: State) {
@@ -165,7 +160,7 @@ function onRedo(state: State) {
 
   clearSelection(state);
   historyIndex.value += 1;
-  circles.value = history.value[historyIndex.value];
+  circles.value = history.value[historyIndex.value].map(signal);
 }
 
 export {

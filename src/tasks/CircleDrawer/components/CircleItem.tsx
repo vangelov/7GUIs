@@ -14,6 +14,7 @@ function CircleItem({ state, circle, index }: Props) {
 
   function onClick(event: MouseEvent) {
     event.preventDefault();
+
     const boundingRect = (
       event.currentTarget.parentNode as any
     ).getBoundingClientRect();
