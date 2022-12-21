@@ -45,6 +45,8 @@ function onCircleSelect(state: State, index: number, position: Position) {
   const { adjustButtonPosition, selectedCirleIndex, adjustDialogPosition } =
     state;
 
+  saveRadius(state);
+
   if (!adjustButtonPosition.value && !adjustDialogPosition.value) {
     selectedCirleIndex.value = index;
     adjustButtonPosition.value = position;
