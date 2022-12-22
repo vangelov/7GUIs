@@ -1,6 +1,6 @@
 import { Signal } from '@preact/signals-react';
 import { MouseEvent } from 'react';
-import { actions, Circle, State } from 'tasks/CircleDrawer/state';
+import { actions, Circle, Position, State } from 'tasks/CircleDrawer/state';
 import './CircleItem.css';
 
 type Props = {
@@ -10,8 +10,26 @@ type Props = {
 };
 
 function CircleItem({ state, circle, index }: Props) {
-  const { position, radius } = circle.value;
+  return (
+    <CircleItemView
+      position={circle.value.position}
+      onSelect={(mousePosition) =>
+        actions.onCircleSelect(state, index, mousePosition)
+      }
+      radius={circle.value.radius}
+      isSelected={state.selectedCirleIndex.value === index}
+    />
+  );
+}
 
+type ViewProps = {
+  position: Position;
+  radius: number;
+  onSelect: (mousePosition: Position) => void;
+  isSelected: boolean;
+};
+
+function CircleItemView({ position, radius, onSelect, isSelected }: ViewProps) {
   function onClick(event: MouseEvent) {
     event.preventDefault();
 
@@ -24,7 +42,7 @@ function CircleItem({ state, circle, index }: Props) {
       y: event.clientY - boundingRect.y
     };
 
-    actions.onCircleSelect(state, index, position);
+    onSelect(position);
   }
 
   return (
@@ -35,12 +53,7 @@ function CircleItem({ state, circle, index }: Props) {
       cy={position.y}
       r={radius}
       style={{
-        fill:
-          state.selectedCirleIndex.value === index
-            ? 'var(--background)'
-            : state.selectedCirleIndex.value === null
-            ? undefined
-            : 'transparent'
+        fill: isSelected ? 'var(--background)' : undefined
       }}
       onClick={onClick}
     />

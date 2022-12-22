@@ -1,5 +1,5 @@
-import { MouseEvent } from 'react';
-import { actions, State } from 'tasks/CircleDrawer/state';
+import { MouseEvent, ReactNode } from 'react';
+import { actions, Position, State } from 'tasks/CircleDrawer/state';
 import { CircleItem } from './CircleItem';
 import './Canvas.css';
 
@@ -8,13 +8,35 @@ type Props = {
 };
 
 function Canvas({ state }: Props) {
-  function onClick(event: MouseEvent) {
+  return (
+    <CanvasView
+      onBackgroundClick={(position) => actions.onCanvasSelect(state, position)}
+    >
+      {state.circles.value.map((circle, index) => (
+        <CircleItem
+          key={circle.peek().id}
+          state={state}
+          index={index}
+          circle={circle}
+        />
+      ))}
+    </CanvasView>
+  );
+}
+
+type ViewProps = {
+  children: ReactNode;
+  onBackgroundClick: (position: Position) => void;
+};
+
+function CanvasView({ children, onBackgroundClick }: ViewProps) {
+  function onRectClick(event: MouseEvent) {
     const boundingRect = event.currentTarget.getBoundingClientRect();
     const position = {
       x: event.clientX - boundingRect.x,
       y: event.clientY - boundingRect.y
     };
-    actions.onCanvasSelect(state, position);
+    onBackgroundClick(position);
   }
 
   return (
@@ -24,16 +46,9 @@ function Canvas({ state }: Props) {
           width="100%"
           height="100%"
           fill="var(--background-body)"
-          onClick={onClick}
+          onClick={onRectClick}
         />
-        {state.circles.value.map((circle, index) => (
-          <CircleItem
-            key={circle.peek().id}
-            state={state}
-            index={index}
-            circle={circle}
-          />
-        ))}
+        {children}
       </svg>
     </div>
   );

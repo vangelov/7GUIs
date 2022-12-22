@@ -20,19 +20,11 @@ function Dialog({ state }: Props) {
     return null;
   }
 
-  function onRadiusChange(radius: number) {
-    actions.onRadiusChange(state, radius);
-  }
-
-  function onClose() {
-    onCloseAdjustmentDialog(state);
-  }
-
   return (
     <DialogView
       circle={circle.value}
-      onClose={onClose}
-      onRadiusChange={onRadiusChange}
+      onClose={() => onCloseAdjustmentDialog(state)}
+      onRadiusChange={(radius) => actions.onRadiusChange(state, radius)}
       position={state.adjustDialogPosition.value}
       onMoveStart={(position) => {
         actions.onDialogStartMove(state, position);

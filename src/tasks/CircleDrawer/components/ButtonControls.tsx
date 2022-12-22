@@ -5,23 +5,30 @@ type Props = {
 };
 
 function ButtonControls({ state }: Props) {
-  function onUndoClick() {
-    actions.onUndo(state);
-  }
+  return (
+    <ButtonControlsView
+      canUndo={selectors.canUndo(state)}
+      canRedo={selectors.canRedo(state)}
+      onUndo={() => actions.onUndo(state)}
+      onRedo={() => actions.onRedo(state)}
+    />
+  );
+}
 
-  function onRedoClick() {
-    actions.onRedo(state);
-  }
+type ViewProps = {
+  canUndo: boolean;
+  canRedo: boolean;
+  onUndo: () => void;
+  onRedo: () => void;
+};
 
-  const canUndo = selectors.canUndo(state);
-  const canRedo = selectors.canRedo(state);
-
+function ButtonControlsView({ canUndo, canRedo, onUndo, onRedo }: ViewProps) {
   return (
     <div>
-      <button disabled={!canUndo} onClick={onUndoClick}>
+      <button disabled={!canUndo} onClick={onUndo}>
         Undo
       </button>
-      <button disabled={!canRedo} onClick={onRedoClick}>
+      <button disabled={!canRedo} onClick={onRedo}>
         Redo
       </button>
     </div>
