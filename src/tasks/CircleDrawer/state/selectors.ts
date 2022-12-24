@@ -12,16 +12,11 @@ function getSelectedCircle(state: State): Signal<Circle> | null {
 }
 
 function canUndo(state: State) {
-  const { historyIndex, adjustDialogPosition } = state;
-  return !adjustDialogPosition.value && historyIndex.value > 0;
+  return state.historyIndex.value > 0;
 }
 
 function canRedo(state: State) {
-  const { historyIndex, history, adjustDialogPosition } = state;
-
-  return (
-    !adjustDialogPosition.value && historyIndex.value < history.value.length - 1
-  );
+  return state.historyIndex.value < state.history.value.length - 1;
 }
 
 export { getSelectedCircle, canUndo, canRedo };
