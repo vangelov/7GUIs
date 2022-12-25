@@ -1,4 +1,4 @@
-import { Signal } from '@preact/signals-core';
+import { Signal } from '@preact/signals-react';
 
 type User = {
   id?: number;

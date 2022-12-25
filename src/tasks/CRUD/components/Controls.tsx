@@ -5,36 +5,44 @@ type Props = {
 };
 
 function Controls({ state }: Props) {
-  function onCreateClick() {
-    actions.createUser(state);
-  }
+  return (
+    <ControlsView
+      canCreate={selectors.canCreateUser(state)}
+      canUpdate={selectors.canUpdateUser(state)}
+      canDelete={selectors.canDeleteUser(state)}
+      onCreate={() => actions.onCreateUser(state)}
+      onUpdate={() => actions.onUpdateUser(state)}
+      onDelete={() => actions.onDeleteUser(state)}
+    />
+  );
+}
 
-  function onUpdateClick() {
-    actions.updateUser(state);
-  }
+type ViewProps = {
+  canCreate: boolean;
+  canUpdate: boolean;
+  canDelete: boolean;
+  onCreate: () => void;
+  onUpdate: () => void;
+  onDelete: () => void;
+};
 
-  function onDeleteClick() {
-    actions.deleteUser(state);
-  }
-
+function ControlsView({
+  canCreate,
+  canUpdate,
+  canDelete,
+  onCreate,
+  onUpdate,
+  onDelete
+}: ViewProps) {
   return (
     <div>
-      <button
-        disabled={!selectors.canCreateUser(state)}
-        onClick={onCreateClick}
-      >
+      <button disabled={!canCreate} onClick={onCreate}>
         Create
       </button>
-      <button
-        disabled={!selectors.canUpdateUser(state)}
-        onClick={onUpdateClick}
-      >
+      <button disabled={!canUpdate} onClick={onUpdate}>
         Update
       </button>
-      <button
-        disabled={!selectors.canDeleteUser(state)}
-        onClick={onDeleteClick}
-      >
+      <button disabled={!canDelete} onClick={onDelete}>
         Delete
       </button>
     </div>

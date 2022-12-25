@@ -1,34 +1,39 @@
-import { ChangeEvent } from 'react';
-import { actions, State } from 'tasks/CRUD/state';
+import { actions, State, User } from 'tasks/CRUD/state';
 
 type Props = {
   state: State;
 };
 
 function UserProfile({ state }: Props) {
-  function onNameChange(event: ChangeEvent<HTMLInputElement>) {
-    const { value } = event.target;
-    actions.setCurrentUser(state, { ...state.currentUser.value, name: value });
-  }
+  return (
+    <UserProfileView
+      user={state.currentUser.value}
+      onNameChange={(value) => actions.onNameChange(state, value)}
+      onSurnameChange={(value) => actions.onSurnameChange(state, value)}
+    />
+  );
+}
 
-  function onSurnameChange(event: ChangeEvent<HTMLInputElement>) {
-    const { value } = event.target;
-    actions.setCurrentUser(state, {
-      ...state.currentUser.value,
-      surname: value
-    });
-  }
+type ViewProps = {
+  user: User;
+  onNameChange: (value: string) => void;
+  onSurnameChange: (value: string) => void;
+};
 
+function UserProfileView({ user, onNameChange, onSurnameChange }: ViewProps) {
   return (
     <div>
       <div style={{ marginBottom: '10px' }}>
         <label>Name</label>
-        <input value={state.currentUser.value.name} onChange={onNameChange} />
+        <input
+          value={user.name}
+          onChange={(event) => onNameChange(event.target.value)}
+        />
 
         <label>Surname</label>
         <input
-          value={state.currentUser.value.surname}
-          onChange={onSurnameChange}
+          value={user.surname}
+          onChange={(event) => onSurnameChange(event.target.value)}
         />
       </div>
     </div>

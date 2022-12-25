@@ -1,13 +1,17 @@
-import { signal } from '@preact/signals-core';
-import { State, User } from './types';
+import { signal } from '@preact/signals-react';
+import { State } from './types';
 
 const EMPTY_USER = { name: '', surname: '' };
 
-function setCurrentUser(state: State, user: User) {
-  state.currentUser.value = user;
+function onNameChange(state: State, value: string) {
+  state.currentUser.value = { ...state.currentUser.value, name: value };
 }
 
-function createUser(state: State) {
+function onSurnameChange(state: State, value: string) {
+  state.currentUser.value = { ...state.currentUser.value, surname: value };
+}
+
+function onCreateUser(state: State) {
   state.lastId.value = state.lastId.value + 1;
 
   state.users.value = [
@@ -19,7 +23,7 @@ function createUser(state: State) {
   state.selectedIndex.value = null;
 }
 
-function deleteUser(state: State) {
+function onDeleteUser(state: State) {
   const index = state.selectedIndex.value;
 
   if (index !== null) {
@@ -33,7 +37,7 @@ function deleteUser(state: State) {
   }
 }
 
-function updateUser(state: State) {
+function onUpdateUser(state: State) {
   const index = state.selectedIndex.value;
 
   if (index !== null) {
@@ -41,32 +45,23 @@ function updateUser(state: State) {
   }
 }
 
-function setFilterPrefix(state: State, value: string) {
+function onFilterChange(state: State, value: string) {
   state.filterPrefix.value = value;
-}
-
-function getUsers(state: State) {
-  const lowercaseFilter = state.filterPrefix.value.toLowerCase();
-
-  return state.users.value.filter((user) => {
-    const lowercaseName = user.value.surname.toLowerCase();
-    return lowercaseName.startsWith(lowercaseFilter);
-  });
 }
 
 function selectUser(state: State, index: number) {
   const user = state.users.value[index];
   state.selectedIndex.value = index;
-  setCurrentUser(state, user.value);
+  state.currentUser.value = user.value;
 }
 
 export {
-  setCurrentUser,
-  createUser,
-  deleteUser,
-  updateUser,
-  setFilterPrefix,
-  getUsers,
+  onNameChange,
+  onSurnameChange,
+  onCreateUser,
+  onDeleteUser,
+  onUpdateUser,
+  onFilterChange,
   selectUser,
   EMPTY_USER
 };

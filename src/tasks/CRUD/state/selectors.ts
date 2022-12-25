@@ -18,7 +18,10 @@ function getSelectedUser(state: State) {
 }
 
 function canCreateUser(state: State) {
-  return state.currentUser.value.name && state.currentUser.value.surname;
+  return (
+    Boolean(state.currentUser.value.name) &&
+    Boolean(state.currentUser.value.surname)
+  );
 }
 
 function canUpdateUser(state: State) {

@@ -1,25 +1,38 @@
+import { Signal } from '@preact/signals-react';
 import { User } from 'tasks/CRUD/state';
+import { State, actions } from 'tasks/CRUD/state';
+import './UserItem.css';
 
 type Props = {
-  user: User;
+  user: Signal<User>;
   index: number;
-  isSelected: boolean;
-  onSelect: (index: number) => void;
+  state: State;
 };
 
-function UserItem({ user, isSelected, index, onSelect }: Props) {
-  function onClick() {
-    onSelect(index);
-  }
+function UserItem({ user, state, index }: Props) {
+  return (
+    <UserItemView
+      onSelect={() => actions.selectUser(state, index)}
+      user={user.value}
+      isSelected={state.selectedIndex.value === index}
+    />
+  );
+}
 
+type ViewProps = {
+  user: User;
+  isSelected: boolean;
+  onSelect: () => void;
+};
+
+function UserItemView({ user, onSelect, isSelected }: ViewProps) {
   return (
     <div
+      className="UserItem"
       style={{
-        cursor: 'pointer',
-        padding: '10px',
         backgroundColor: isSelected ? 'var(--background)' : undefined
       }}
-      onClick={onClick}
+      onClick={onSelect}
     >
       {user.surname}, {user.name}
     </div>

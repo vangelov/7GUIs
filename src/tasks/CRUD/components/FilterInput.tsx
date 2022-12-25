@@ -1,31 +1,39 @@
 import { ChangeEvent } from 'react';
 import { actions, State } from 'tasks/CRUD/state';
+import './FilterInput.css';
 
 type Props = {
   state: State;
 };
 
 function FilterInput({ state }: Props) {
+  return (
+    <FilterInputView
+      value={state.filterPrefix.value}
+      onChange={(value) => actions.onFilterChange(state, value)}
+    />
+  );
+}
+
+type ViewProps = {
+  value: string;
+  onChange: (value: string) => void;
+};
+
+function FilterInputView({ onChange, value }: ViewProps) {
   function onInputChange(event: ChangeEvent<HTMLInputElement>) {
     const { value } = event.target;
-    actions.setFilterPrefix(state, value);
+    onChange(value);
   }
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        width: '300px',
-        alignItems: 'center',
-        marginBottom: '10px'
-      }}
-    >
+    <div className="FilterInput">
       <label style={{ marginRight: '10px', marginBottom: 0 }}>
         Filter prefix
       </label>
 
       <input
-        value={state.filterPrefix.value}
+        value={value}
         style={{ margin: 0, flex: 1 }}
         onChange={onInputChange}
       />

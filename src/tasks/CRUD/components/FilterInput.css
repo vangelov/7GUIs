@@ -1,0 +1,6 @@
+.FilterInput {
+  display: flex;
+  width: 300px;
+  align-items: center;
+  margin-bottom: 10px;
+}

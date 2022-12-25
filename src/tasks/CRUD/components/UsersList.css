@@ -1,0 +1,10 @@
+.UsersList {
+  border-style: solid;
+  border-color: var(--border);
+  border-radius: 6px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  margin-right: 10px;
+  width: 300px;
+  height: 190px;
+}
