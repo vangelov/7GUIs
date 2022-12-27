@@ -8,7 +8,6 @@ type ParseState = {
 
 function parse(formulaString: string): FormulaNode {
   const tokens = tokenize(formulaString.replace(/\s+/g, ''));
-  console.log('t', formulaString.replace(/\s+/g, ''), tokens);
 
   if (tokens.length === 0) return EMPTY_NODE;
 
@@ -121,8 +120,6 @@ function parseApplication(initialState: ParseState): {
     if (state.lookahead.kind === 'comma') {
       state = getNextState(state);
     }
-
-    console.log('S', state);
 
     if (state.lookahead.kind === 'close_bracket') {
       return { node: { kind: 'operation', args, operator }, state };

@@ -1,5 +1,3 @@
-import { Signal } from '@preact/signals-react';
-
 type NumberNode = {
   kind: 'number';
   value: number;
@@ -28,14 +26,14 @@ type OperationNode = {
   args: FormulaNode[];
 };
 
+type FormulaNodeGetter = (row: number, col: number) => FormulaNode;
+
 type FormulaNode =
   | NumberNode
   | TextNode
   | CoordNode
   | RangeNode
   | OperationNode;
-
-type Cells = Signal<FormulaNode>[][];
 
 type Operator = 'add' | 'sub' | 'div' | 'mul' | 'mod' | 'mod' | 'sum' | 'prod';
 
@@ -57,11 +55,11 @@ function hasValue(node: FormulaNode) {
   return node.kind !== 'text';
 }
 
-function evalNode(cells: Cells, node: FormulaNode): number {
+function evalNode(node: FormulaNode, get: FormulaNodeGetter): number {
   if (node.kind === 'number') return node.value;
   if (node.kind === 'text') return 0;
   if (node.kind === 'coord') {
-    return evalNode(cells, cells[node.row][node.col].value);
+    return evalNode(get(node.row, node.col), get);
   }
 
   if (node.kind === 'operation') {
@@ -70,11 +68,11 @@ function evalNode(cells: Cells, node: FormulaNode): number {
 
       for (const arg of node.args) {
         if (arg.kind === 'range') {
-          for (const refNode of getReferences(cells, arg)) {
-            result.push(evalNode(cells, refNode));
+          for (const refNode of getReferences(arg, get)) {
+            result.push(evalNode(refNode, get));
           }
         } else {
-          result.push(evalNode(cells, arg));
+          result.push(evalNode(arg, get));
         }
       }
 
@@ -87,14 +85,16 @@ function evalNode(cells: Cells, node: FormulaNode): number {
   throw new Error(`Cannot evaluate node: ${node}`);
 }
 
-function getReferences(cells: Cells, rangeNode: RangeNode): FormulaNode[] {
+function getReferences(
+  rangeNode: RangeNode,
+  get: FormulaNodeGetter
+): FormulaNode[] {
   const references: FormulaNode[] = [];
   const { startCoord, endCoord } = rangeNode;
 
   for (let row = startCoord.row; row <= endCoord.row; row++) {
     for (let col = startCoord.col; col <= endCoord.col; col++) {
-      const value = cells[row][col].value;
-      references.push(value);
+      references.push(get(row, col));
     }
   }
 
@@ -103,4 +103,4 @@ function getReferences(cells: Cells, rangeNode: RangeNode): FormulaNode[] {
 
 export { EMPTY_NODE, evalNode, hasValue };
 
-export type { FormulaNode, Operator, Cells };
+export type { FormulaNode, Operator };
