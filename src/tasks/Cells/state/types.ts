@@ -7,13 +7,13 @@ type CellPosition = {
 };
 
 type Cell = {
-  formula?: string;
-  formulaNode?: FormulaNode;
-  isFocused?: boolean;
+  formula: Signal<string>;
+  formulaNode: Signal<FormulaNode>;
+  isFocused: Signal<boolean>;
 };
 
 type State = {
-  cells: Signal<Cell>[][];
+  cells: Cell[][];
 };
 
 export type { State, CellPosition, Cell };

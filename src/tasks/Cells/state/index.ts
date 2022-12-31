@@ -1,22 +1,33 @@
 import { signal } from '@preact/signals-react';
-import { State } from './types';
+import { State, Cell } from './types';
 
-function getInitialState(): State {
+function getInitialCell(): Cell {
   return {
-    cells: [
-      [signal({}), signal({}), signal({}), signal({}), signal({}), signal({})],
-      [signal({}), signal({}), signal({}), signal({}), signal({}), signal({})],
-      [signal({}), signal({}), signal({}), signal({}), signal({}), signal({})],
-      [signal({}), signal({}), signal({}), signal({}), signal({}), signal({})],
-      [signal({}), signal({}), signal({}), signal({}), signal({}), signal({})],
-      [signal({}), signal({}), signal({}), signal({}), signal({}), signal({})],
-      [signal({}), signal({}), signal({}), signal({}), signal({}), signal({})],
-      [signal({}), signal({}), signal({}), signal({}), signal({}), signal({})],
-      [signal({}), signal({}), signal({}), signal({}), signal({}), signal({})],
-      [signal({}), signal({}), signal({}), signal({}), signal({}), signal({})]
-    ]
+    isFocused: signal(false),
+    formula: signal(''),
+    formulaNode: signal({ kind: 'text', value: '' })
   };
 }
+
+function getInitialState(): State {
+  const rows = 9;
+  const cols = 4;
+  const cells: Cell[][] = [];
+
+  for (let i = 0; i <= rows; i++) {
+    for (let j = 0; j <= cols; j++) {
+      if (!cells[i]) {
+        cells[i] = [];
+      }
+      cells[i].push(getInitialCell());
+    }
+  }
+
+  return {
+    cells
+  };
+}
+
 export { getInitialState };
 export * as actions from './actions';
 export * from './types';

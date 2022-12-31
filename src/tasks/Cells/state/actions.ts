@@ -5,41 +5,24 @@ function onCellEditStart(state: State, cellPositon: CellPosition) {
   const { row, col } = cellPositon;
   const cell = state.cells[row][col];
 
-  cell.value = {
-    ...cell.value,
-    isFocused: true
-  };
+  cell.isFocused.value = true;
 }
 
 function onCellEdit(state: State, cellPositon: CellPosition, formula: string) {
   const { row, col } = cellPositon;
   const cell = state.cells[row][col];
 
-  cell.value = {
-    ...cell.value,
-    formula
-  };
+  cell.formula.value = formula;
 }
 
 function onCellEditEnd(state: State, cellPosition: CellPosition) {
   const { row, col } = cellPosition;
   const cell = state.cells[row][col];
-  const { formula } = cell.value;
 
-  if (formula) {
-    const formulaNode = parse(formula);
+  cell.formulaNode.value = parse(cell.formula.value);
+  cell.isFocused.value = false;
 
-    cell.value = {
-      ...cell.value,
-      formulaNode,
-      isFocused: false
-    };
-  } else {
-    cell.value = {
-      ...cell.value,
-      isFocused: false
-    };
-  }
+  console.log('c', cell);
 }
 
 export { onCellEditStart, onCellEdit, onCellEditEnd };

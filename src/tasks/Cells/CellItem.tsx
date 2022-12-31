@@ -1,5 +1,6 @@
 import { CellPosition, State, actions } from 'tasks/Cells/state';
 import './CellItem.css';
+import { KeyboardEvent } from 'react';
 import { evalNode, hasValue } from './formula';
 
 type Props = {
@@ -8,28 +9,22 @@ type Props = {
 };
 
 function CellItem({ state, position }: Props) {
-  const { row, col } = position;
-  const { formula, isFocused, formulaNode } = state.cells[row][col].value;
-  let value;
+  const { cells } = state;
+  const cell = cells[position.row][position.col];
+  let value = undefined;
 
-  console.log('render', position);
-
-  if (formulaNode && hasValue(formulaNode)) {
+  if (cell.formulaNode.value && hasValue(cell.formulaNode.value)) {
     value = evalNode(
-      formulaNode,
-      (row: number, col: number) =>
-        state.cells[row][col].value.formulaNode || {
-          kind: 'number',
-          value: 0
-        }
+      cell.formulaNode.value,
+      (row, col) => cells[row][col].formulaNode.value
     );
   }
 
   return (
     <CellItemView
       value={value}
-      formula={formula}
-      isFocused={isFocused}
+      formula={cell.formula.value}
+      isFocused={cell.isFocused.value}
       onEditStart={() => actions.onCellEditStart(state, position)}
       onEdit={(formula: string) => actions.onCellEdit(state, position, formula)}
       onEditEnd={() => actions.onCellEditEnd(state, position)}
@@ -40,7 +35,7 @@ function CellItem({ state, position }: Props) {
 type ViewProps = {
   isFocused?: boolean;
   value?: number;
-  formula?: string;
+  formula: string;
   onEditStart: () => void;
   onEdit: (value: string) => void;
   onEditEnd: () => void;
@@ -54,20 +49,26 @@ function CellItemView({
   onEdit,
   onEditEnd
 }: ViewProps) {
+  function onInputKeyUp(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      onEditEnd();
+    }
+  }
+
   return (
     <td
       className="CellItem"
       onDoubleClick={() => (isFocused ? undefined : onEditStart())}
     >
       <input
-        value={isFocused ? formula : value}
+        value={isFocused || value === undefined ? formula : value}
         readOnly={!isFocused}
-        style={{
-          outline: isFocused ? '2px solid forestgreen' : undefined
-        }}
         onBlur={onEditEnd}
-        onSubmit={onEditEnd}
-        className="CellItem-Input"
+        onKeyUp={onInputKeyUp}
+        className={`CellItem-Input ${
+          isFocused ? 'CellItem-Input-Focused' : ''
+        }`}
         onChange={(event) => onEdit(event.target.value)}
       />
     </td>
