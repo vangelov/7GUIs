@@ -41,14 +41,14 @@ type Operation = (vals: number[]) => number;
 
 const EMPTY_NODE: FormulaNode = { kind: 'text', value: '' };
 
-const opTable: { [name: string]: Operation } = {
-  add: (vals: number[]) => vals[0] + vals[1],
-  sub: (vals: number[]) => vals[0] - vals[1],
-  div: (vals: number[]) => vals[0] / vals[1],
-  mul: (vals: number[]) => vals[0] * vals[1],
-  mod: (vals: number[]) => vals[0] % vals[1],
-  sum: (vals: number[]) => vals.reduce((prev, curr) => prev + curr, 0),
-  prod: (vals: number[]) => vals.reduce((prev, curr) => prev * curr, 1)
+const operationsTable: { [name: string]: Operation } = {
+  add: (values: number[]) => values[0] + values[1],
+  sub: (values: number[]) => values[0] - values[1],
+  div: (values: number[]) => values[0] / values[1],
+  mul: (values: number[]) => values[0] * values[1],
+  mod: (values: number[]) => values[0] % values[1],
+  sum: (values: number[]) => values.reduce((prev, curr) => prev + curr, 0),
+  prod: (values: number[]) => values.reduce((prev, curr) => prev * curr, 1)
 };
 
 function hasValue(node: FormulaNode) {
@@ -76,7 +76,7 @@ function evalNode(node: FormulaNode, get: FormulaNodeGetter): number {
         }
       }
 
-      return opTable[node.operator](result);
+      return operationsTable[node.operator](result);
     } catch (e) {
       return NaN;
     }

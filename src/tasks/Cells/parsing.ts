@@ -1,7 +1,7 @@
 import { EMPTY_NODE, FormulaNode, Operator } from './formula';
 import { Token, tokenize } from './tokens';
 
-type ParseState = {
+type ParsingPosition = {
   tokens: Token[];
   lookahead: Token;
 };
@@ -11,17 +11,17 @@ function parse(formulaString: string): FormulaNode {
 
   if (tokens.length === 0) return EMPTY_NODE;
 
-  const state: ParseState = {
+  const position: ParsingPosition = {
     tokens,
     lookahead: tokens[0]
   };
 
-  switch (state.lookahead.kind) {
+  switch (position.lookahead.kind) {
     case 'decimal':
-      const n = state.lookahead.value;
+      const n = position.lookahead.value;
       return { kind: 'number', value: parseFloat(n) };
     case 'equals':
-      return parseExpression(getNextState(state)).node;
+      return parseExpression(getNextPosition(position)).node;
     case 'epsilon':
       return EMPTY_NODE;
     default:
@@ -29,7 +29,7 @@ function parse(formulaString: string): FormulaNode {
   }
 }
 
-function getNextState(state: ParseState): ParseState {
+function getNextPosition(state: ParsingPosition): ParsingPosition {
   const nextTokens = state.tokens.slice(1);
   const nextLookahead: Token =
     nextTokens.length === 0 ? { kind: 'epsilon', value: '' } : nextTokens[0];
@@ -40,26 +40,26 @@ function getNextState(state: ParseState): ParseState {
   };
 }
 
-function parseExpression(initialState: ParseState): {
+function parseExpression(initialPosition: ParsingPosition): {
   node: FormulaNode;
-  state: ParseState;
+  position: ParsingPosition;
 } {
-  let state = initialState;
+  let position = initialPosition;
 
-  switch (state.lookahead.kind) {
+  switch (position.lookahead.kind) {
     case 'cell':
-      const c = state.lookahead.value.charCodeAt(0) - 'A'.charCodeAt(0);
-      const r = parseInt(state.lookahead.value.slice(1));
-      state = getNextState(state);
-      if (state.lookahead.kind === 'colon') {
+      const c = position.lookahead.value.charCodeAt(0) - 'A'.charCodeAt(0);
+      const r = parseInt(position.lookahead.value.slice(1));
+      position = getNextPosition(position);
+      if (position.lookahead.kind === 'colon') {
         // Range
-        state = getNextState(state);
+        position = getNextPosition(position);
 
-        if (state.lookahead.kind === 'cell') {
-          const c2 = state.lookahead.value.charCodeAt(0) - 'A'.charCodeAt(0);
-          const r2 = parseInt(state.lookahead.value.slice(1));
+        if (position.lookahead.kind === 'cell') {
+          const c2 = position.lookahead.value.charCodeAt(0) - 'A'.charCodeAt(0);
+          const r2 = parseInt(position.lookahead.value.slice(1));
 
-          state = getNextState(state);
+          position = getNextPosition(position);
 
           return {
             node: {
@@ -67,62 +67,62 @@ function parseExpression(initialState: ParseState): {
               startCoord: { kind: 'coord', row: r, col: c },
               endCoord: { kind: 'coord', row: r2, col: c2 }
             },
-            state
+            position
           };
         } else {
-          throw new Error('Incorrect Range: ' + state.lookahead.value);
+          throw new Error('Incorrect Range: ' + position.lookahead.value);
         }
       } else {
-        return { node: { kind: 'coord', row: r, col: c }, state };
+        return { node: { kind: 'coord', row: r, col: c }, position };
       }
     case 'decimal':
-      const f = parseFloat(state.lookahead.value);
-      state = getNextState(state);
-      return { node: { kind: 'number', value: f }, state };
+      const f = parseFloat(position.lookahead.value);
+      position = getNextPosition(position);
+      return { node: { kind: 'number', value: f }, position };
     case 'ident':
-      const g = parseApplication(state);
+      const g = parseApplication(position);
       return {
         node: g.node,
-        state: getNextState(g.state)
+        position: getNextPosition(g.state)
       };
     default:
-      throw new Error('Incorrect Expression: ' + state.lookahead.value);
+      throw new Error('Incorrect Expression: ' + position.lookahead.value);
   }
 }
 
-function parseApplication(initialState: ParseState): {
+function parseApplication(initialPosition: ParsingPosition): {
   node: FormulaNode;
-  state: ParseState;
+  state: ParsingPosition;
 } {
-  let state = initialState;
-  const operator = state.lookahead.value as Operator;
+  let position = initialPosition;
+  const operator = position.lookahead.value as Operator;
 
-  state = getNextState(state);
+  position = getNextPosition(position);
 
-  if (state.lookahead.kind !== 'open_bracket') {
+  if (position.lookahead.kind !== 'open_bracket') {
     throw new Error('No opening bracket: ' + operator);
   }
 
-  state = getNextState(state);
+  position = getNextPosition(position);
 
   const args: FormulaNode[] = [];
 
   while (true) {
-    if (state.lookahead.kind === 'epsilon') {
+    if (position.lookahead.kind === 'epsilon') {
       throw new Error('No closing bracket');
     }
 
-    const expressionResult = parseExpression(state);
-    state = expressionResult.state;
+    const expressionResult = parseExpression(position);
+    position = expressionResult.position;
 
     args.push(expressionResult.node);
 
-    if (state.lookahead.kind === 'comma') {
-      state = getNextState(state);
+    if (position.lookahead.kind === 'comma') {
+      position = getNextPosition(position);
     }
 
-    if (state.lookahead.kind === 'close_bracket') {
-      return { node: { kind: 'operation', args, operator }, state };
+    if (position.lookahead.kind === 'close_bracket') {
+      return { node: { kind: 'operation', args, operator }, state: position };
     }
   }
 }

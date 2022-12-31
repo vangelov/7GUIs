@@ -1,0 +1,16 @@
+.CellsGrid {
+  width: 1200px;
+  height: 500px;
+  text-align: center;
+  vertical-align: center;
+  table-layout: fixed;
+  border-spacing: 0;
+  border-collapse: separate;
+  background: white;
+}
+
+.CellsGrid td,
+.CellsGrid th {
+  text-align: center;
+  vertical-align: middle;
+}

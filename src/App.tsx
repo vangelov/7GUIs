@@ -7,6 +7,7 @@ import { TemperatureConverter } from './tasks/TemperatureConverter';
 import { parse } from './tasks/Cells/parsing';
 import { evalNode, FormulaNode } from 'tasks/Cells/formula';
 import { Signal, signal } from '@preact/signals-react';
+import { Cells } from 'tasks/Cells';
 
 const cells: Signal<FormulaNode>[][] = [
   [signal({ kind: 'number', value: 2 }), signal({ kind: 'number', value: 20 })],
@@ -35,6 +36,8 @@ function App() {
       <CRUD />
       <hr />
       <CircleDrawer />
+      <hr />
+      <Cells />
     </div>
   );
 }
