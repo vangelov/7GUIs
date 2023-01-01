@@ -78,7 +78,7 @@ function CellsGridView({ rows, cols, getChildAt }: ViewProps) {
     ];
 
     const start = 'A'.charCodeAt(0);
-    for (let i = start; i < start + rows; i++) {
+    for (let i = start; i < start + cols; i++) {
       result.push(
         <th
           key={i}
