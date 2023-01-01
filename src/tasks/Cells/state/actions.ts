@@ -21,8 +21,6 @@ function onCellEditEnd(state: State, cellPosition: CellPosition) {
 
   cell.formulaNode.value = parse(cell.formula.value);
   cell.isFocused.value = false;
-
-  console.log('c', cell);
 }
 
 export { onCellEditStart, onCellEdit, onCellEditEnd };

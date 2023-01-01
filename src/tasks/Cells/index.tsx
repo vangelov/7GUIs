@@ -1,5 +1,5 @@
 import { Task } from 'Task';
-import { CellsGrid } from './CellsGrid';
+import { CellsGrid } from './components';
 import { getInitialState } from './state';
 
 const state = getInitialState();

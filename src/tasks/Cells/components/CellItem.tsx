@@ -1,7 +1,7 @@
 import { CellPosition, State, actions } from 'tasks/Cells/state';
 import './CellItem.css';
 import { KeyboardEvent } from 'react';
-import { evalNode, hasValue } from './formula';
+import { getCellValue } from 'tasks/Cells/state/selectors';
 
 type Props = {
   position: CellPosition;
@@ -11,14 +11,7 @@ type Props = {
 function CellItem({ state, position }: Props) {
   const { cells } = state;
   const cell = cells[position.row][position.col];
-  let value = undefined;
-
-  if (cell.formulaNode.value && hasValue(cell.formulaNode.value)) {
-    value = evalNode(
-      cell.formulaNode.value,
-      (row, col) => cells[row][col].formulaNode.value
-    );
-  }
+  const value = getCellValue(state, cell);
 
   return (
     <CellItemView
@@ -62,13 +55,16 @@ function CellItemView({
       onDoubleClick={() => (isFocused ? undefined : onEditStart())}
     >
       <input
+        className="CellItem-Input"
         value={isFocused || value === undefined ? formula : value}
+        style={{
+          outline: isFocused ? '2px solid forestgreen' : undefined,
+          fontFamily:
+            isFocused && formula.startsWith('=') ? 'monospace' : undefined
+        }}
         readOnly={!isFocused}
         onBlur={onEditEnd}
         onKeyUp={onInputKeyUp}
-        className={`CellItem-Input ${
-          isFocused ? 'CellItem-Input-Focused' : ''
-        }`}
         onChange={(event) => onEdit(event.target.value)}
       />
     </td>

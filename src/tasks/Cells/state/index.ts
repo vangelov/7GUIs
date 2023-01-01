@@ -30,4 +30,5 @@ function getInitialState(): State {
 
 export { getInitialState };
 export * as actions from './actions';
+export * as selectors from './selectors';
 export * from './types';

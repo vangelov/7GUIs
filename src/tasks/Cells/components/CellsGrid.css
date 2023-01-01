@@ -1,4 +1,9 @@
-.CellsGrid {
+.Cells-Grid {
+  height: 300px;
+  overflow: scroll;
+}
+
+.CellsGrid-Table {
   width: 1200px;
   height: 500px;
   text-align: center;
@@ -9,8 +14,12 @@
   background: white;
 }
 
-.CellsGrid td,
-.CellsGrid th {
+.CellsGrid-Coord {
+  border: 0.5px solid #bbb;
+  position: sticky;
+  height: 40px;
+  background: #f6f6f6;
   text-align: center;
   vertical-align: middle;
+  user-select: none;
 }
