@@ -1,10 +1,12 @@
-import { CircleDrawer } from 'tasks/CircleDrawer';
-import { CRUD } from 'tasks/CRUD';
-import { FlightBooker } from 'tasks/FlightBooker';
-import { Timer } from 'tasks/Timer';
-import { Counter } from './tasks/Counter';
-import { TemperatureConverter } from './tasks/TemperatureConverter';
-import { Cells } from 'tasks/Cells';
+import {
+  Counter,
+  TemperatureConverter,
+  Timer,
+  FlightBooker,
+  CRUD,
+  CircleDrawer,
+  Cells
+} from './tasks';
 
 function App() {
   return (

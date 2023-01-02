@@ -1,7 +1,5 @@
 import { Task } from 'Task';
-import { Canvas } from './components';
-import { ButtonControls } from './components/ButtonControls';
-import { Dialog } from './components/Dialog';
+import { Dialog, ButtonControls, Canvas } from './components';
 import { getInitialState } from './state';
 
 const state = getInitialState();

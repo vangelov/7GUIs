@@ -6,7 +6,6 @@ import {
   selectors,
   Circle
 } from 'tasks/CircleDrawer/state';
-import { onCloseAdjustmentDialog } from '../state/actions';
 import './Dialog.css';
 
 type Props = {
@@ -23,7 +22,7 @@ function Dialog({ state }: Props) {
   return (
     <DialogView
       circle={circle.value}
-      onClose={() => onCloseAdjustmentDialog(state)}
+      onClose={() => actions.onCloseAdjustmentDialog(state)}
       onRadiusChange={(radius) => actions.onRadiusChange(state, radius)}
       position={state.adjustDialogPosition.value}
       onMoveStart={(position) => {
