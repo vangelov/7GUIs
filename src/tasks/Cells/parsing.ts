@@ -1,3 +1,5 @@
+// Adapted from: https://github.com/eugenkiss/7guis-React-TypeScript-MobX/blob/master/src/app/guis/cells/parser.ts
+
 import { EMPTY_NODE, FormulaNode, Operator } from './formula';
 import { Token, tokenize } from './tokens';
 

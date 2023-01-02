@@ -1,3 +1,5 @@
+// Adapted from: https://github.com/eugenkiss/7guis-React-TypeScript-MobX/blob/master/src/app/guis/cells/formula.ts
+
 type NumberNode = {
   kind: 'number';
   value: number;
