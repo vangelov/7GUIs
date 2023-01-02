@@ -1,28 +1,10 @@
 import { Task } from 'Task';
 import { DateInput, FlightTypeSelect } from './components';
-import {
-  FlightType,
-  State,
-  actions,
-  selectors,
-  getInitialState
-} from './state';
+import { State, actions, selectors, getInitialState } from './state';
 
 const state: State = getInitialState();
 
 function FlightBooker() {
-  function onFlightTypeChange(value: FlightType) {
-    actions.setFlightType(state, value);
-  }
-
-  function onStartDateChange(value: string) {
-    actions.setStartDate(state, value);
-  }
-
-  function onEndDateChange(value: string) {
-    actions.setEndDate(state, value);
-  }
-
   function onBook() {
     window.alert(selectors.getBookMessage(state));
   }
@@ -34,21 +16,21 @@ function FlightBooker() {
     <Task name="Flight Booker">
       <FlightTypeSelect
         value={state.flightType.value}
-        onChange={onFlightTypeChange}
+        onChange={(value) => actions.onFlightChangeChange(state, value)}
       />
 
       <DateInput
         isInvalid={startDateState === 'invalid'}
         isDisabled={startDateState === 'disabled'}
         value={state.start.value}
-        onChange={onStartDateChange}
+        onChange={(value) => actions.onStartDateChange(state, value)}
       />
 
       <DateInput
         isInvalid={endDateState === 'invalid'}
         isDisabled={endDateState === 'disabled'}
         value={state.end.value}
-        onChange={onEndDateChange}
+        onChange={(value) => actions.onEndDateChange(state, value)}
       />
 
       <button disabled={!selectors.isBookingEnabled(state)} onClick={onBook}>
