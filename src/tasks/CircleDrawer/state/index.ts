@@ -10,7 +10,6 @@ function getInitialState(): State {
     history: signal([[]]),
     historyIndex: signal(0),
 
-    adjustButtonPosition: signal(null),
     adjustDialogPosition: signal(null),
 
     initialPointerPosition: signal(null),

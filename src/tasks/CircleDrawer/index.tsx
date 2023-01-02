@@ -1,6 +1,5 @@
 import { Task } from 'Task';
 import { Canvas } from './components';
-import { AdjustmentButton } from './components/AdjustmentButton';
 import { ButtonControls } from './components/ButtonControls';
 import { Dialog } from './components/Dialog';
 import { getInitialState } from './state';
@@ -14,7 +13,6 @@ function CircleDrawer() {
 
       <div style={{ position: 'relative' }}>
         <Canvas state={state} />
-        <AdjustmentButton state={state} />
         <Dialog state={state} />
       </div>
     </Task>

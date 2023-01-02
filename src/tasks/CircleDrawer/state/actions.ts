@@ -41,37 +41,22 @@ function onCanvasSelect(state: State, position: Position) {
   clearSelection(state);
 }
 
-function onCircleSelect(state: State, index: number, position: Position) {
-  const { adjustButtonPosition, selectedCirleIndex, adjustDialogPosition } =
-    state;
+function onCircleSelect(state: State, index: number) {
+  const { adjustDialogPosition, circles, selectedCirleIndex } = state;
 
   saveRadius(state);
 
-  if (!adjustButtonPosition.value && !adjustDialogPosition.value) {
+  if (!adjustDialogPosition.value) {
     selectedCirleIndex.value = index;
-    adjustButtonPosition.value = position;
-  } else {
-    clearSelection(state);
-  }
-}
-
-function onAdjustRadius(state: State) {
-  const {
-    selectedCirleIndex,
-    circles,
-    adjustDialogPosition,
-    adjustButtonPosition
-  } = state;
-
-  adjustButtonPosition.value = null;
-
-  if (selectedCirleIndex.value !== null) {
-    const circle = circles.value[selectedCirleIndex.value];
+    const circle = circles.value[index];
     const { position, radius } = circle.value;
+
     adjustDialogPosition.value = {
       x: position.x,
       y: position.y + radius
     };
+  } else {
+    clearSelection(state);
   }
 }
 
@@ -118,7 +103,6 @@ function onCloseAdjustmentDialog(state: State) {
 
 function clearSelection(state: State) {
   state.selectedCirleIndex.value = null;
-  state.adjustButtonPosition.value = null;
   state.adjustDialogPosition.value = null;
   state.radiusChanged.value = false;
 }
@@ -163,7 +147,6 @@ export {
   onCircleSelect,
   onDialogStartMove,
   onDialogMove,
-  onAdjustRadius,
   onRadiusChange,
   onCloseAdjustmentDialog,
   onUndo,

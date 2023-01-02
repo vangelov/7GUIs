@@ -18,10 +18,7 @@ type State = {
   historyIndex: Signal<number>;
   selectedCirleIndex: Signal<number | null>;
   radiusChanged: Signal<boolean>;
-
-  adjustButtonPosition: Signal<Position | null>;
   adjustDialogPosition: Signal<Position | null>;
-
   initialPointerPosition: Signal<Position | null>;
   initialObjectPosition: Signal<Position | null>;
 };

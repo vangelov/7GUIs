@@ -13,9 +13,7 @@ function CircleItem({ state, circle, index }: Props) {
   return (
     <CircleItemView
       position={circle.value.position}
-      onSelect={(mousePosition) =>
-        actions.onCircleSelect(state, index, mousePosition)
-      }
+      onSelect={() => actions.onCircleSelect(state, index)}
       radius={circle.value.radius}
       isSelected={state.selectedCirleIndex.value === index}
     />
@@ -25,37 +23,26 @@ function CircleItem({ state, circle, index }: Props) {
 type ViewProps = {
   position: Position;
   radius: number;
-  onSelect: (mousePosition: Position) => void;
+  onSelect: () => void;
   isSelected: boolean;
 };
 
 function CircleItemView({ position, radius, onSelect, isSelected }: ViewProps) {
-  function onClick(event: MouseEvent) {
+  function onContextMenu(event: MouseEvent) {
     event.preventDefault();
-
-    const boundingRect = (
-      event.currentTarget.parentNode as any
-    ).getBoundingClientRect();
-
-    const position = {
-      x: event.clientX - boundingRect.x,
-      y: event.clientY - boundingRect.y
-    };
-
-    onSelect(position);
+    onSelect();
   }
 
   return (
     <circle
       className="CircleItem"
-      onContextMenu={onClick}
+      onContextMenu={onContextMenu}
       cx={position.x}
       cy={position.y}
       r={radius}
       style={{
         fill: isSelected ? 'var(--background)' : undefined
       }}
-      onClick={onClick}
     />
   );
 }
