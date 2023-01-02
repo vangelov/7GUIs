@@ -49,7 +49,7 @@ function onFilterChange(state: State, value: string) {
   state.filterPrefix.value = value;
 }
 
-function selectUser(state: State, index: number) {
+function onSelectUser(state: State, index: number) {
   const user = state.users.value[index];
   state.selectedIndex.value = index;
   state.currentUser.value = user.value;
@@ -62,6 +62,6 @@ export {
   onDeleteUser,
   onUpdateUser,
   onFilterChange,
-  selectUser,
+  onSelectUser,
   EMPTY_USER
 };

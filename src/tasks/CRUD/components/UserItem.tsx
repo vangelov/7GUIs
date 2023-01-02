@@ -12,7 +12,7 @@ type Props = {
 function UserItem({ user, state, index }: Props) {
   return (
     <UserItemView
-      onSelect={() => actions.selectUser(state, index)}
+      onSelect={() => actions.onSelectUser(state, index)}
       user={user.value}
       isSelected={state.selectedIndex.value === index}
     />
