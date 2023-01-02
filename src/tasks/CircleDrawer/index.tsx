@@ -9,7 +9,7 @@ const state = getInitialState();
 
 function CircleDrawer() {
   return (
-    <Task name="Circle Drawer">
+    <Task name="Circle Drawer" style={{ marginBottom: 14 }}>
       <ButtonControls state={state} />
 
       <div style={{ position: 'relative' }}>

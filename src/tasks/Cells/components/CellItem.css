@@ -1,7 +1,7 @@
 .CellItem {
   background-color: white;
   border: 0.5px solid #bbb;
-  padding: 0;
+  padding: 1px;
 }
 
 .CellItem-Input {

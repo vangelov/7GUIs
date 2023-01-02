@@ -53,12 +53,15 @@ function CellItemView({
     <td
       className="CellItem"
       onDoubleClick={() => (isFocused ? undefined : onEditStart())}
+      style={{
+        border: isFocused ? '0.5px solid green' : undefined,
+        backgroundColor: isFocused ? 'green' : undefined
+      }}
     >
       <input
         className="CellItem-Input"
         value={isFocused || value === undefined ? formula : value}
         style={{
-          outline: isFocused ? '2px solid forestgreen' : undefined,
           fontFamily:
             isFocused && formula.startsWith('=') ? 'monospace' : undefined
         }}

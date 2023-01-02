@@ -12,7 +12,7 @@ function formatValue(value: number) {
   return Math.round(value).toString();
 }
 
-function setCelsius(state: State, value: string) {
+function onCelsiusChange(state: State, value: string) {
   state.celsius.value = value;
 
   const parsedValue = parseFloat(value);
@@ -23,7 +23,7 @@ function setCelsius(state: State, value: string) {
   }
 }
 
-function setFahrenheit(state: State, value: string) {
+function onFahrenheitChange(state: State, value: string) {
   state.fahrenheit.value = value;
 
   const parsedValue = parseFloat(value);
@@ -34,4 +34,4 @@ function setFahrenheit(state: State, value: string) {
   }
 }
 
-export { setCelsius, setFahrenheit };
+export { onCelsiusChange, onFahrenheitChange };

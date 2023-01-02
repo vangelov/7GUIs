@@ -1,30 +1,22 @@
 import { Task } from 'Task';
-import { Input } from './Input';
+import { Input } from './components';
 import { getInitialState, actions, State } from './state';
 
 const state: State = getInitialState();
 
 function TemperatureConverter() {
-  function onCelsiusInputChange(value: string) {
-    actions.setCelsius(state, value);
-  }
-
-  function onFahrenheitInputChange(value: string) {
-    actions.setFahrenheit(state, value);
-  }
-
   return (
-    <Task name="Temperature Converter">
+    <Task name="Temperature Converter" style={{ marginBottom: 14 }}>
       <Input
         label="Celsius"
         value={state.celsius.value}
-        onChange={onCelsiusInputChange}
+        onChange={(value) => actions.onCelsiusChange(state, value)}
       />
 
       <Input
         label="Fahrenheit"
         value={state.fahrenheit.value}
-        onChange={onFahrenheitInputChange}
+        onChange={(value) => actions.onFahrenheitChange(state, value)}
       />
     </Task>
   );

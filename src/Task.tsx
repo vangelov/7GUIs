@@ -1,13 +1,13 @@
-import { ReactNode } from 'react';
+import { HTMLAttributes, ReactNode } from 'react';
 
 type Props = {
   name: string;
   children: ReactNode;
-};
+} & HTMLAttributes<HTMLDivElement>;
 
-function Task({ name, children }: Props) {
+function Task({ name, children, ...rest }: Props) {
   return (
-    <div>
+    <div {...rest}>
       <h2>{name}</h2>
       {children}
     </div>
