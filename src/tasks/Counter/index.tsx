@@ -4,17 +4,27 @@ import { getInitialState, actions } from './state';
 const state = getInitialState();
 
 function Counter() {
-  function onClick() {
-    actions.incrementCounter(state);
-  }
-
   return (
     <Task name="Counter">
-      <div>
-        <input readOnly={true} value={state.counter.value}></input>
-        <button onClick={onClick}>Count</button>
-      </div>
+      <CounterView
+        value={state.counter.value}
+        onCount={() => actions.onIncrementCounter(state)}
+      />
     </Task>
+  );
+}
+
+type ViewProps = {
+  value: number;
+  onCount: () => void;
+};
+
+function CounterView({ value, onCount }: ViewProps) {
+  return (
+    <div>
+      <input readOnly={true} value={value}></input>
+      <button onClick={onCount}>Count</button>
+    </div>
   );
 }
 
