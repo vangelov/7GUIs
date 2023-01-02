@@ -7,16 +7,8 @@ const state: State = getInitialState();
 
 function Timer() {
   useEffect(() => {
-    actions.resetTimer(state);
+    actions.onResetTimer(state);
   }, []);
-
-  function onDurationChange(value: number) {
-    actions.setDurationInSeconds(state, value);
-  }
-
-  function onReset() {
-    actions.resetTimer(state);
-  }
 
   return (
     <Task name="Timer">
@@ -24,10 +16,10 @@ function Timer() {
 
       <DurationInput
         value={state.durationInSeconds.value}
-        onChange={onDurationChange}
+        onChange={(value) => actions.onDurationChange(state, value)}
       />
 
-      <button onClick={onReset}>Reset</button>
+      <button onClick={() => actions.onResetTimer(state)}>Reset</button>
     </Task>
   );
 }

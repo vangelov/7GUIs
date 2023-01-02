@@ -1,11 +1,11 @@
 import { State } from './types';
 
-function resetTimer(state: State) {
+function onResetTimer(state: State) {
   state.startInSeconds.value = performance.now() / 1000;
   startInterval(state);
 }
 
-function setDurationInSeconds(state: State, value: number) {
+function onDurationChange(state: State, value: number) {
   state.durationInSeconds.value = value;
 
   if (
@@ -36,4 +36,4 @@ function startInterval(state: State) {
   }, 100);
 }
 
-export { resetTimer, setDurationInSeconds };
+export { onResetTimer, onDurationChange };
