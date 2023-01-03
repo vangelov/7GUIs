@@ -3,11 +3,11 @@ import { selectors, State } from 'tasks/CRUD/state';
 import { UserItem } from './UserItem';
 import './UsersList.css';
 
-type Props = {
+type ControllerProps = {
   state: State;
 };
 
-function UsersList({ state }: Props) {
+function UsersListController({ state }: ControllerProps) {
   const users = selectors.getUsers(state);
 
   return (
@@ -24,6 +24,8 @@ function UsersList({ state }: Props) {
   );
 }
 
+// ---
+
 type ViewProps = {
   children: ReactNode;
 };
@@ -36,4 +38,4 @@ function UsersListView({ children }: ViewProps) {
   );
 }
 
-export { UsersList };
+export { UsersListController as UsersList };

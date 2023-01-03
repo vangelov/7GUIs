@@ -5,7 +5,7 @@ import { Progress, DurationInput } from './components';
 
 const state: State = getInitialState();
 
-function Timer() {
+function TimerController() {
   useEffect(() => {
     actions.onResetTimer(state);
   }, []);
@@ -24,4 +24,4 @@ function Timer() {
   );
 }
 
-export { Timer };
+export { TimerController as Timer };

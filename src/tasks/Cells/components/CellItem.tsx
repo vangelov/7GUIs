@@ -3,12 +3,12 @@ import './CellItem.css';
 import { KeyboardEvent } from 'react';
 import { getCellValue } from 'tasks/Cells/state/selectors';
 
-type Props = {
+type ControllerProps = {
   position: CellPosition;
   state: State;
 };
 
-function CellItem({ state, position }: Props) {
+function CellItemController({ state, position }: ControllerProps) {
   const { cells } = state;
   const cell = cells[position.row][position.col];
   const value = getCellValue(state, cell);
@@ -24,6 +24,8 @@ function CellItem({ state, position }: Props) {
     />
   );
 }
+
+// ---
 
 type ViewProps = {
   isFocused?: boolean;
@@ -74,4 +76,4 @@ function CellItemView({
   );
 }
 
-export { CellItem };
+export { CellItemController as CellItem };

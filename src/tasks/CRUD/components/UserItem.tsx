@@ -3,13 +3,13 @@ import { User } from 'tasks/CRUD/state';
 import { State, actions } from 'tasks/CRUD/state';
 import './UserItem.css';
 
-type Props = {
+type ControllerProps = {
   user: Signal<User>;
   index: number;
   state: State;
 };
 
-function UserItem({ user, state, index }: Props) {
+function UserItemController({ user, state, index }: ControllerProps) {
   return (
     <UserItemView
       onSelect={() => actions.onSelectUser(state, index)}
@@ -39,4 +39,4 @@ function UserItemView({ user, onSelect, isSelected }: ViewProps) {
   );
 }
 
-export { UserItem };
+export { UserItemController as UserItem };

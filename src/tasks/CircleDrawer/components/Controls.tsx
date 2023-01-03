@@ -1,12 +1,12 @@
 import { actions, State, selectors } from 'tasks/CircleDrawer/state';
 
-type Props = {
+type ControllerProps = {
   state: State;
 };
 
-function ButtonControls({ state }: Props) {
+function ControlsController({ state }: ControllerProps) {
   return (
-    <ButtonControlsView
+    <ControlsView
       canUndo={selectors.canUndo(state)}
       canRedo={selectors.canRedo(state)}
       onUndo={() => actions.onUndo(state)}
@@ -15,6 +15,8 @@ function ButtonControls({ state }: Props) {
   );
 }
 
+// ---
+
 type ViewProps = {
   canUndo: boolean;
   canRedo: boolean;
@@ -22,7 +24,7 @@ type ViewProps = {
   onRedo: () => void;
 };
 
-function ButtonControlsView({ canUndo, canRedo, onUndo, onRedo }: ViewProps) {
+function ControlsView({ canUndo, canRedo, onUndo, onRedo }: ViewProps) {
   return (
     <div>
       <button disabled={!canUndo} onClick={onUndo}>
@@ -35,4 +37,4 @@ function ButtonControlsView({ canUndo, canRedo, onUndo, onRedo }: ViewProps) {
   );
 }
 
-export { ButtonControls };
+export { ControlsController as Controls };

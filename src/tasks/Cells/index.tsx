@@ -4,7 +4,7 @@ import { getInitialState } from './state';
 
 const state = getInitialState();
 
-function Cells() {
+function CellsController() {
   return (
     <Task name="Cells">
       <CellsGrid state={state} />
@@ -12,4 +12,4 @@ function Cells() {
   );
 }
 
-export { Cells };
+export { CellsController as Cells };

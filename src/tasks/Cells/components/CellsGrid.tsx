@@ -3,11 +3,11 @@ import { State } from 'tasks/Cells/state';
 import { CellItem } from './CellItem';
 import './CellsGrid.css';
 
-type Props = {
+type ControllerProps = {
   state: State;
 };
 
-function CellsGrid({ state }: Props) {
+function CellsGridController({ state }: ControllerProps) {
   const { cells } = state;
 
   return (
@@ -20,6 +20,8 @@ function CellsGrid({ state }: Props) {
     />
   );
 }
+
+// ---
 
 type ViewProps = {
   rows: number;
@@ -108,4 +110,4 @@ function CellsGridView({ rows, cols, getChildAt }: ViewProps) {
   );
 }
 
-export { CellsGrid };
+export { CellsGridController as CellsGrid };

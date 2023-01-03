@@ -1,10 +1,10 @@
 import { State, actions, selectors } from 'tasks/CRUD/state';
 
-type Props = {
+type ControllerProps = {
   state: State;
 };
 
-function Controls({ state }: Props) {
+function ControlsController({ state }: ControllerProps) {
   return (
     <ControlsView
       canCreate={selectors.canCreateUser(state)}
@@ -16,6 +16,8 @@ function Controls({ state }: Props) {
     />
   );
 }
+
+// ---
 
 type ViewProps = {
   canCreate: boolean;
@@ -49,4 +51,4 @@ function ControlsView({
   );
 }
 
-export { Controls };
+export { ControlsController as Controls };

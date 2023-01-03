@@ -8,11 +8,11 @@ import {
 } from 'tasks/CircleDrawer/state';
 import './Dialog.css';
 
-type Props = {
+type ControllerProps = {
   state: State;
 };
 
-function Dialog({ state }: Props) {
+function DialogController({ state }: ControllerProps) {
   const circle = selectors.getSelectedCircle(state);
 
   if (!state.adjustDialogPosition.value || !circle) {
@@ -32,6 +32,8 @@ function Dialog({ state }: Props) {
     />
   );
 }
+
+// ---
 
 type ViewProps = {
   position: Position;
@@ -106,4 +108,4 @@ function DialogView({
   );
 }
 
-export { Dialog };
+export { DialogController as Dialog };

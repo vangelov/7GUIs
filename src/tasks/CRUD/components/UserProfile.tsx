@@ -1,10 +1,10 @@
 import { actions, State, User } from 'tasks/CRUD/state';
 
-type Props = {
+type ControllerProps = {
   state: State;
 };
 
-function UserProfile({ state }: Props) {
+function UserProfileController({ state }: ControllerProps) {
   return (
     <UserProfileView
       user={state.currentUser.value}
@@ -13,6 +13,8 @@ function UserProfile({ state }: Props) {
     />
   );
 }
+
+// ---
 
 type ViewProps = {
   user: User;
@@ -40,4 +42,4 @@ function UserProfileView({ user, onNameChange, onSurnameChange }: ViewProps) {
   );
 }
 
-export { UserProfile };
+export { UserProfileController as UserProfile };

@@ -4,7 +4,7 @@ import { State, actions, selectors, getInitialState } from './state';
 
 const state: State = getInitialState();
 
-function FlightBooker() {
+function FlightBookerController() {
   function onBook() {
     window.alert(selectors.getBookMessage(state));
   }
@@ -40,4 +40,4 @@ function FlightBooker() {
   );
 }
 
-export { FlightBooker };
+export { FlightBookerController as FlightBooker };

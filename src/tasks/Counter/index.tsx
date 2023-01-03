@@ -3,7 +3,7 @@ import { getInitialState, actions } from './state';
 
 const state = getInitialState();
 
-function Counter() {
+function CounterController() {
   return (
     <Task name="Counter">
       <CounterView
@@ -13,6 +13,8 @@ function Counter() {
     </Task>
   );
 }
+
+// ---
 
 type ViewProps = {
   value: number;
@@ -28,4 +30,4 @@ function CounterView({ value, onCount }: ViewProps) {
   );
 }
 
-export { Counter };
+export { CounterController as Counter };

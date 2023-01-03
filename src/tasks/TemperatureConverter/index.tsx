@@ -4,7 +4,7 @@ import { getInitialState, actions, State } from './state';
 
 const state: State = getInitialState();
 
-function TemperatureConverter() {
+function TemperatureConverterController() {
   return (
     <Task name="Temperature Converter" style={{ marginBottom: 14 }}>
       <Input
@@ -22,4 +22,4 @@ function TemperatureConverter() {
   );
 }
 
-export { TemperatureConverter };
+export { TemperatureConverterController as TemperatureConverter };

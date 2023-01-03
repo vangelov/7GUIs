@@ -1,13 +1,13 @@
 import { Task } from 'Task';
-import { Dialog, ButtonControls, Canvas } from './components';
+import { Dialog, Controls, Canvas } from './components';
 import { getInitialState } from './state';
 
 const state = getInitialState();
 
-function CircleDrawer() {
+function CircleDrawerController() {
   return (
     <Task name="Circle Drawer" style={{ marginBottom: 14 }}>
-      <ButtonControls state={state} />
+      <Controls state={state} />
 
       <div style={{ position: 'relative' }}>
         <Canvas state={state} />
@@ -17,4 +17,4 @@ function CircleDrawer() {
   );
 }
 
-export { CircleDrawer };
+export { CircleDrawerController as CircleDrawer };

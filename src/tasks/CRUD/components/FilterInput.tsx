@@ -2,11 +2,11 @@ import { ChangeEvent } from 'react';
 import { actions, State } from 'tasks/CRUD/state';
 import './FilterInput.css';
 
-type Props = {
+type ControllerProps = {
   state: State;
 };
 
-function FilterInput({ state }: Props) {
+function FilterInputController({ state }: ControllerProps) {
   return (
     <FilterInputView
       value={state.filterPrefix.value}
@@ -14,6 +14,8 @@ function FilterInput({ state }: Props) {
     />
   );
 }
+
+// ---
 
 type ViewProps = {
   value: string;
@@ -41,4 +43,4 @@ function FilterInputView({ onChange, value }: ViewProps) {
   );
 }
 
-export { FilterInput };
+export { FilterInputController as FilterInput };

@@ -3,11 +3,11 @@ import { actions, Position, State } from 'tasks/CircleDrawer/state';
 import { CircleItem } from './CircleItem';
 import './Canvas.css';
 
-type Props = {
+type ControllerProps = {
   state: State;
 };
 
-function Canvas({ state }: Props) {
+function CanvasController({ state }: ControllerProps) {
   return (
     <CanvasView
       onBackgroundClick={(position) => actions.onCanvasSelect(state, position)}
@@ -23,6 +23,8 @@ function Canvas({ state }: Props) {
     </CanvasView>
   );
 }
+
+// ---
 
 type ViewProps = {
   children: ReactNode;
@@ -54,4 +56,4 @@ function CanvasView({ children, onBackgroundClick }: ViewProps) {
   );
 }
 
-export { Canvas };
+export { CanvasController as Canvas };

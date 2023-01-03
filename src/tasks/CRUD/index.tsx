@@ -4,7 +4,7 @@ import { UsersList, UserProfile, FilterInput, Controls } from './components';
 
 const state = getInitialState();
 
-function CRUD() {
+function CRUDController() {
   return (
     <Task name="CRUD">
       <FilterInput state={state} />
@@ -19,4 +19,4 @@ function CRUD() {
   );
 }
 
-export { CRUD };
+export { CRUDController as CRUD };

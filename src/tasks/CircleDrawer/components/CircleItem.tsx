@@ -3,13 +3,13 @@ import { MouseEvent } from 'react';
 import { actions, Circle, Position, State } from 'tasks/CircleDrawer/state';
 import './CircleItem.css';
 
-type Props = {
+type ControllerProps = {
   state: State;
   circle: Signal<Circle>;
   index: number;
 };
 
-function CircleItem({ state, circle, index }: Props) {
+function CircleItemController({ state, circle, index }: ControllerProps) {
   return (
     <CircleItemView
       position={circle.value.position}
@@ -19,6 +19,8 @@ function CircleItem({ state, circle, index }: Props) {
     />
   );
 }
+
+// ---
 
 type ViewProps = {
   position: Position;
@@ -47,4 +49,4 @@ function CircleItemView({ position, radius, onSelect, isSelected }: ViewProps) {
   );
 }
 
-export { CircleItem };
+export { CircleItemController as CircleItem };
