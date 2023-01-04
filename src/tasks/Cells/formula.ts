@@ -78,7 +78,7 @@ function evalNode(node: FormulaNode, get: FormulaNodeGetter): number {
         }
       }
 
-      return operationsTable[node.operator](result);
+      return operationsTable[node.operator.toLowerCase()](result);
     } catch (e) {
       return NaN;
     }
