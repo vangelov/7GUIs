@@ -1,5 +1,3 @@
-import { ChangeEvent } from 'react';
-
 type Props = {
   value: string;
   label: string;
@@ -7,15 +5,10 @@ type Props = {
 };
 
 function Input({ value, label, onChange }: Props) {
-  function onInputChange(event: ChangeEvent<HTMLInputElement>) {
-    const { value } = event.target;
-    onChange(value);
-  }
-
   return (
     <div>
       <label>{label}</label>
-      <input value={value} onChange={onInputChange} />
+      <input value={value} onChange={(event) => onChange(event.target.value)} />
     </div>
   );
 }
