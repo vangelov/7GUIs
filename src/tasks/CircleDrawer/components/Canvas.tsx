@@ -10,7 +10,7 @@ type ControllerProps = {
 function CanvasController({ state }: ControllerProps) {
   return (
     <CanvasView
-      onBackgroundClick={(position) => actions.onCanvasSelect(state, position)}
+      onBackgroundClick={(position) => actions.onCanvasClick(state, position)}
     >
       {state.circles.value.map((circle, index) => (
         <CircleItem

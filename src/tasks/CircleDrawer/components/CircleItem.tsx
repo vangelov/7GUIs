@@ -13,7 +13,8 @@ function CircleItemController({ state, circle, index }: ControllerProps) {
   return (
     <CircleItemView
       position={circle.value.position}
-      onSelect={() => actions.onCircleSelect(state, index)}
+      onClick={() => actions.onCircleClick(state, index)}
+      onRightClick={() => actions.onCircleRightClick(state, index)}
       radius={circle.value.radius}
       isSelected={state.selectedCirleIndex.value === index}
     />
@@ -25,19 +26,27 @@ function CircleItemController({ state, circle, index }: ControllerProps) {
 type ViewProps = {
   position: Position;
   radius: number;
-  onSelect: () => void;
   isSelected: boolean;
+  onRightClick: () => void;
+  onClick: () => void;
 };
 
-function CircleItemView({ position, radius, onSelect, isSelected }: ViewProps) {
+function CircleItemView({
+  position,
+  radius,
+  onClick,
+  onRightClick,
+  isSelected
+}: ViewProps) {
   function onContextMenu(event: MouseEvent) {
     event.preventDefault();
-    onSelect();
+    onRightClick();
   }
 
   return (
     <circle
       className="CircleItem"
+      onClick={onClick}
       onContextMenu={onContextMenu}
       cx={position.x}
       cy={position.y}

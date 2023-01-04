@@ -29,7 +29,7 @@ function addCircle(state: State, position: Position) {
   expandHistory(state, (lastCircles) => [...lastCircles, circle]);
 }
 
-function onCanvasSelect(state: State, position: Position) {
+function onCanvasClick(state: State, position: Position) {
   const { selectedCirleIndex } = state;
 
   saveRadius(state);
@@ -41,23 +41,25 @@ function onCanvasSelect(state: State, position: Position) {
   clearSelection(state);
 }
 
-function onCircleSelect(state: State, index: number) {
+function onCircleRightClick(state: State, index: number) {
   const { adjustDialogPosition, circles, selectedCirleIndex } = state;
 
   saveRadius(state);
+  clearSelection(state);
 
-  if (!adjustDialogPosition.value) {
-    selectedCirleIndex.value = index;
-    const circle = circles.value[index];
-    const { position, radius } = circle.value;
+  selectedCirleIndex.value = index;
+  const circle = circles.value[index];
+  const { position, radius } = circle.value;
 
-    adjustDialogPosition.value = {
-      x: position.x,
-      y: position.y + radius
-    };
-  } else {
-    clearSelection(state);
-  }
+  adjustDialogPosition.value = {
+    x: position.x,
+    y: position.y + radius
+  };
+}
+
+function onCircleClick(state: State, index: number) {
+  saveRadius(state);
+  clearSelection(state);
 }
 
 function onDialogStartMove(state: State, initialPointerPosition: Position) {
@@ -143,8 +145,9 @@ function onRedo(state: State) {
 }
 
 export {
-  onCanvasSelect,
-  onCircleSelect,
+  onCanvasClick,
+  onCircleRightClick,
+  onCircleClick,
   onDialogStartMove,
   onDialogMove,
   onRadiusChange,
