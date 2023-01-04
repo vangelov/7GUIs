@@ -6,7 +6,11 @@ const state = getInitialState();
 
 function CircleDrawerController() {
   return (
-    <Task name="Circle Drawer" style={{ marginBottom: 14 }}>
+    <Task
+      name="Circle Drawer"
+      prompt="(Right-click on a circle to change its radius.)"
+      style={{ marginBottom: 14 }}
+    >
       <Controls state={state} />
 
       <div style={{ position: 'relative' }}>

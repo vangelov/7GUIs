@@ -17,7 +17,7 @@ function App() {
         rel="noreferrer"
         href="https://github.com/vangelov/7GUIs"
       >
-        View Github repo
+        View Github
       </a>
       <hr />
       <Counter />
