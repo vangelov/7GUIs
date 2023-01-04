@@ -37,7 +37,7 @@ function startInterval(state: State) {
       window.clearInterval(state.intervalId.value);
       state.intervalId.value = null;
     }
-  }, 100);
+  }, 10);
 }
 
 export { onResetTimer, onDurationChange };
