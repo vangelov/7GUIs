@@ -18,9 +18,16 @@ function CellItemController({ state, position }: ControllerProps) {
       value={value}
       formula={cell.formula.value}
       isFocused={cell.isFocused.value}
+      errorMessage={cell.errorMessage.value}
       onEditStart={() => actions.onCellEditStart(state, position)}
       onEdit={(formula: string) => actions.onCellEdit(state, position, formula)}
-      onEditEnd={() => actions.onCellEditEnd(state, position)}
+      onEditEnd={() => {
+        try {
+          actions.onCellEditEnd(state, position);
+        } catch (e: any) {
+          alert(e.messsage);
+        }
+      }}
     />
   );
 }
@@ -31,6 +38,7 @@ type ViewProps = {
   isFocused?: boolean;
   value?: number;
   formula: string;
+  errorMessage?: string;
   onEditStart: () => void;
   onEdit: (value: string) => void;
   onEditEnd: () => void;
@@ -42,7 +50,8 @@ function CellItemView({
   value,
   onEditStart,
   onEdit,
-  onEditEnd
+  onEditEnd,
+  errorMessage
 }: ViewProps) {
   function onInputKeyUp(event: KeyboardEvent) {
     if (event.key === 'Enter') {
@@ -51,14 +60,17 @@ function CellItemView({
     }
   }
 
+  const highlightColor = errorMessage ? 'red' : isFocused ? 'green' : undefined;
+
   return (
     <td
       className="CellItem"
       onDoubleClick={() => (isFocused ? undefined : onEditStart())}
       style={{
-        border: isFocused ? '0.5px solid green' : undefined,
-        backgroundColor: isFocused ? 'green' : undefined
+        border: highlightColor ? `0.5px solid ${highlightColor}` : undefined,
+        backgroundColor: highlightColor
       }}
+      title={errorMessage}
     >
       <input
         className="CellItem-Input"

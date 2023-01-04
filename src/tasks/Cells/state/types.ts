@@ -10,6 +10,7 @@ type Cell = {
   formula: Signal<string>;
   formulaNode: Signal<FormulaNode>;
   isFocused: Signal<boolean>;
+  errorMessage: Signal<string | undefined>;
 };
 
 type State = {

@@ -19,7 +19,15 @@ function onCellEditEnd(state: State, cellPosition: CellPosition) {
   const { row, col } = cellPosition;
   const cell = state.cells[row][col];
 
-  cell.formulaNode.value = parse(cell.formula.value);
+  try {
+    cell.formulaNode.value = parse(cell.formula.value);
+    cell.errorMessage.value = undefined;
+  } catch (error: any) {
+    if (error.message) {
+      cell.errorMessage.value = error.message;
+    }
+  }
+
   cell.isFocused.value = false;
 }
 

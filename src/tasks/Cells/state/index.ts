@@ -5,7 +5,8 @@ function getInitialCell(): Cell {
   return {
     isFocused: signal(false),
     formula: signal(''),
-    formulaNode: signal({ kind: 'text', value: '' })
+    formulaNode: signal({ kind: 'text', value: '' }),
+    errorMessage: signal(undefined)
   };
 }
 
