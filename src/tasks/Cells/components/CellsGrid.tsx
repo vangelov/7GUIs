@@ -52,7 +52,7 @@ function CellsGridView({ rows, cols, getChildAt }: ViewProps) {
               left: 0
             }}
           >
-            <b>{i}</b>
+            <b>{i + 1}</b>
           </td>
 
           {renderCols(i)}
