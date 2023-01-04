@@ -51,7 +51,7 @@ function parseExpression(initialPosition: ParsingPosition): {
   switch (position.lookahead.kind) {
     case 'cell':
       const c = position.lookahead.value.charCodeAt(0) - 'A'.charCodeAt(0);
-      const r = parseInt(position.lookahead.value.slice(1));
+      const r = parseInt(position.lookahead.value.slice(1)) - 1;
       position = getNextPosition(position);
       if (position.lookahead.kind === 'colon') {
         // Range
@@ -59,7 +59,7 @@ function parseExpression(initialPosition: ParsingPosition): {
 
         if (position.lookahead.kind === 'cell') {
           const c2 = position.lookahead.value.charCodeAt(0) - 'A'.charCodeAt(0);
-          const r2 = parseInt(position.lookahead.value.slice(1));
+          const r2 = parseInt(position.lookahead.value.slice(1)) - 1;
 
           position = getNextPosition(position);
 
