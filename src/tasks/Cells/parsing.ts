@@ -1,5 +1,6 @@
 // Adapted from: https://github.com/eugenkiss/7guis-React-TypeScript-MobX/blob/master/src/app/guis/cells/parser.ts
 
+import { parseCoord } from './coords';
 import { EMPTY_NODE, FormulaNode, Operator } from './formula';
 import { Token, tokenize } from './tokens';
 
@@ -50,24 +51,23 @@ function parseExpression(initialPosition: ParsingPosition): {
 
   switch (position.lookahead.kind) {
     case 'cell':
-      const c = position.lookahead.value.charCodeAt(0) - 'A'.charCodeAt(0);
-      const r = parseInt(position.lookahead.value.slice(1)) - 1;
+      const { row, col } = parseCoord(position.lookahead.value);
       position = getNextPosition(position);
+
       if (position.lookahead.kind === 'colon') {
         // Range
         position = getNextPosition(position);
 
         if (position.lookahead.kind === 'cell') {
-          const c2 = position.lookahead.value.charCodeAt(0) - 'A'.charCodeAt(0);
-          const r2 = parseInt(position.lookahead.value.slice(1)) - 1;
+          const { row: row2, col: col2 } = parseCoord(position.lookahead.value);
 
           position = getNextPosition(position);
 
           return {
             node: {
               kind: 'range',
-              startCoord: { kind: 'coord', row: r, col: c },
-              endCoord: { kind: 'coord', row: r2, col: c2 }
+              startCoord: { kind: 'coord', row, col },
+              endCoord: { kind: 'coord', row: row2, col: col2 }
             },
             position
           };
@@ -75,7 +75,7 @@ function parseExpression(initialPosition: ParsingPosition): {
           throw new Error('Incorrect Range: ' + position.lookahead.value);
         }
       } else {
-        return { node: { kind: 'coord', row: r, col: c }, position };
+        return { node: { kind: 'coord', row, col }, position };
       }
     case 'decimal':
       const f = parseFloat(position.lookahead.value);

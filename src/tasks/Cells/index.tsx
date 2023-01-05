@@ -6,7 +6,10 @@ const state = getInitialState();
 
 function CellsController() {
   return (
-    <Task name="Cells">
+    <Task
+      name="Cells"
+      prompt="(Double-click on a cell to view or update its formula.)"
+    >
       <CellsGrid state={state} />
     </Task>
   );

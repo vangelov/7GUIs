@@ -1,11 +1,25 @@
 import { signal } from '@preact/signals-react';
+import { parse } from 'tasks/Cells/parsing';
+import { stringifyCoord } from '../coords';
 import { State, Cell } from './types';
 
-function getInitialCell(): Cell {
+const predefinedFormulasMap: Record<string, string> = {
+  A1: '1',
+  A2: '2',
+  A3: '3',
+  B1: '=sum(A1:A3)',
+  B2: '=mul(A1:A3)',
+  C1: '=add(A1,A2)'
+};
+
+function getCell(row: number, col: number): Cell {
+  const coord = stringifyCoord({ row, col });
+  const formula = predefinedFormulasMap[coord] || '';
+
   return {
     isFocused: signal(false),
-    formula: signal(''),
-    formulaNode: signal({ kind: 'text', value: '' }),
+    formula: signal(formula),
+    formulaNode: signal(parse(formula)),
     errorMessage: signal(undefined)
   };
 }
@@ -17,10 +31,8 @@ function getInitialState(): State {
 
   for (let i = 0; i <= rows; i++) {
     for (let j = 0; j <= cols; j++) {
-      if (!cells[i]) {
-        cells[i] = [];
-      }
-      cells[i].push(getInitialCell());
+      if (!cells[i]) cells[i] = [];
+      cells[i].push(getCell(i, j));
     }
   }
 
