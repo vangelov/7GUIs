@@ -1,24 +1,23 @@
 import { State } from 'tasks/Timer/state';
+import { Control } from './Control';
 
-type Props = {
+type ControllerProps = {
   state: State;
 };
 
-function Progress({ state }: Props) {
+function ProgressController({ state }: ControllerProps) {
   return (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
-      <label style={{ width: '150px' }}>
-        <b>Elapsed:</b> {state.elapsedInSeconds.value.toFixed(1)}s
-      </label>
-
+    <Control
+      label="Elapsed:"
+      value={`${state.elapsedInSeconds.value.toFixed(1)}s`}
+    >
       <meter
-        style={{ width: '50%' }}
         value={state.elapsedInSeconds.value}
         min="0"
         max={state.durationInSeconds.value}
       />
-    </div>
+    </Control>
   );
 }
 
-export { Progress };
+export { ProgressController as Progress };
