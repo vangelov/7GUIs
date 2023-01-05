@@ -65,7 +65,6 @@ function CellItemView({
   return (
     <td
       className="CellItem"
-      onDoubleClick={() => (isFocused ? undefined : onEditStart())}
       style={{
         border: highlightColor ? `0.5px solid ${highlightColor}` : undefined,
         backgroundColor: highlightColor
@@ -79,6 +78,7 @@ function CellItemView({
           fontFamily:
             isFocused && formula.startsWith('=') ? 'monospace' : undefined
         }}
+        onDoubleClick={() => (isFocused ? undefined : onEditStart())}
         readOnly={!isFocused}
         onBlur={onEditEnd}
         onKeyUp={onInputKeyUp}
